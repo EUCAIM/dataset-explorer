@@ -13,7 +13,7 @@ import SingleDataType from "../../../../../model/SingleDataType";
 import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
 import Util from "../../../../../Util";
 import CheckIntegrity from "../../../../../model/CheckIntegrity";
-import Config from "../../../../../config.json";
+import config from "../../../../../service/config";
 import DelCancelSingleDataMsg from "../../../../common/DelCancelSingleDataMsg";
 
 
@@ -120,12 +120,15 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
       token: keycloak.token,
       id: singleDataId,
       singleDataType: props.singleDataType
+    },
+    {
+        skip: !props.keycloakReady
     }
   )
 
   useEffect(() => {
     if (deleteIsLoading === false && (deleteError === undefined || deleteError === null) && deleteData) {
-      navigate("/" + Config.basename);
+      navigate("/" + config.basename);
     } 
   }, [deleteIsLoading, deleteError, deleteData ])
 
@@ -137,7 +140,7 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
     if (singleDataError) {
         return <ErrorView message={`Error loading resource ID '${singleDataId}': ${singleDataError.message ?? ""}`} />
     } else if (isLoading) {
-      return <LoadingView what={`resource ID '${singleDataId}'`} />;
+      return <LoadingView what={`details for resource ID '${singleDataId}'`} />;
     } else {
       return (
         <Fragment>
@@ -189,7 +192,7 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
           );
     }
   } else {
-    if (isLoading) {
+    if (isLoading || !props.keycloakReady) {
       return <LoadingView what={`resource ID '${singleDataId}'`} />;
     } else {    
       return <div>No dataset ID specified</div>; 
