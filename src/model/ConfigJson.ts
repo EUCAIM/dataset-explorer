@@ -22,6 +22,20 @@ interface DatasetService {
     projectLogo: string;
 }
 
+interface ExternalLinks {
+    supportReportRequest: string;
+    applicationCatalogue?: string;
+}
+
+interface Project {
+    name: string;
+    doi?: string;
+    termsConditions?: string;
+    privacyPolicy?: string;
+    favicon: string;
+    sla?: string;
+}
+
 export default interface ConfigJson {
 
     appVersion: string;
@@ -32,9 +46,12 @@ export default interface ConfigJson {
     defaultLimitDatasets: number;
     defaultLimitStudies: number;
     defaultLimitTraces: number;
+    defaultLimitAccess: number;
     userAccountUrl: string;
     refreshDatasetCreate: number;
     keycloak: KeycloakOpts;
+    externalLinks: ExternalLinks;
+    project: Project;
     externalServices?: ExternalService[];
     appsDashboard: string;
 
