@@ -29,11 +29,11 @@ interface ExternalLinks {
 
 interface Project {
     name: string;
-    doi?: string;
-    termsConditions?: string;
-    privacyPolicy?: string;
+    doi?: string | null;
+    termsConditions?: string |  null;
+    privacyPolicy?: string |  null;
     favicon: string;
-    sla?: string;
+    sla?: string |  null;
 }
 
 export default interface ConfigJson {
