@@ -77,6 +77,9 @@ function MainView(props: MainViewProps) {
   const filterUpdate = useCallback((params: Object) => updSearchParams({...params, skip: null}),
     [skip, updSearchParams]);
 
+  const searchStringUpdate = useCallback((searchString: string | null) => updSearchParams({searchString, skip: null}),
+    [skip, updSearchParams]);
+
   const [ , { data: deleteData } ] = useDeleteSingleDataCreatingMutation({
     fixedCacheKey: "deleteSingleDataCreating"
   });
@@ -173,7 +176,7 @@ function MainView(props: MainViewProps) {
       return (
         <Container fluid>
           <div>
-            <SearchComponent initValue={searchString} updSearchParams={updSearchParams} />
+            <SearchComponent initValue={searchString} searchStringUpdate={searchStringUpdate} />
           </div>
           <DelCancelSingleDataMsg deleteData={deleteData}/>
           {
