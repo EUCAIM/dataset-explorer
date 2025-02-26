@@ -5,10 +5,10 @@ import React, {useState, useEffect}from 'react';
 
 interface SearchComponentProps {
   initValue: string;
-  updSearchParams: Function;
+  searchStringUpdate: Function;
 }
 
-function SearchComponent({initValue, updSearchParams}: SearchComponentProps): JSX.Element {
+function SearchComponent({initValue, searchStringUpdate}: SearchComponentProps): JSX.Element {
     const [input, setInput] = useState(initValue);
     useEffect(() => {
       setInput(initValue);
@@ -31,11 +31,21 @@ function SearchComponent({initValue, updSearchParams}: SearchComponentProps): JS
           value={input}
           onKeyDown={(e) => {
             if(e.key === 'Enter') {
-                updSearchParams({searchString: (e.target as HTMLInputElement).value});
+                let searchString: string | null = (e.target as HTMLInputElement).value;
+                if (searchString === "") {
+                    searchString = null
+                }
+                searchStringUpdate(searchString);
             }
           }}
         />
-        <Button variant="outline-primary" size="sm" className="search-btn" onClick={() =>updSearchParams({searchString: input})}>
+        <Button variant="outline-primary" size="sm" className="search-btn" onClick={() => {
+            let searchString: string | null = input;
+            if (searchString === "") {
+                searchString = null;
+            }
+            searchStringUpdate(searchString);
+        }}>
           <SearchIc />
         </Button>
       </InputGroup>
