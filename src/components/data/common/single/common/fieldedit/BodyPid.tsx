@@ -38,9 +38,8 @@ function BodyPid(props: BodyPidProps) {
     console.log(` value is ${JSON.stringify(value)}`);
   
     let cssMsgAutoPid = "d-inline-block mt-2 fst-italic";
-    let msgAutoPid = "The dataset's metadata and index (not the images nor clinical data) will be deposited in <a href=\"zenodo.org\">Zenodo.org</a> in order to obtain a DOI.\n"
-      + "Metadata includes the content of \"Details\" tab: author, contact information, creation date, license, etc.\n"
-      + "Index includes the content of \"Studies\" tab: study id, study name, subject and series.";
+    let msgAutoPid = "The dataset's metadata (not the images nor clinical data) will be deposited in <a href=\"zenodo.org\">Zenodo.org</a> in order to obtain a DOI.\n"
+      + "Metadata includes the content of \"Details\" tab: author, contact information, creation date, license, etc.";
     if (!expanded) {
       cssMsgAutoPid += " overflow-ellipsis";
     } else {

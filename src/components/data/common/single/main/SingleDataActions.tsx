@@ -29,14 +29,13 @@ function showDialogPublishDs<T extends SingleData>(token: string | null | undefi
         body: <div>
             The published dataset:
             <ul>
-              <li>will be visible and usable by registered users out of CHAIMELEON consortium</li>
+              <li>will be visible and usable by registered users out of the project, but only those that are explicitly added to the dataset's ACL.</li>
               <li>will be visible (the metadata, never the contents) by unregistered users</li>
-              {showZenodo ? <li>the metadata and a small index of studies will be deposited publicly in Zenodo.org in order to obtain a DOI*</li> : <></>}
+              {showZenodo ? <li>the metadata will be deposited publicly in Zenodo.org in order to obtain a DOI*</li> : <></>}
             </ul>
             {showZenodo ?
                 <div className="mt-4">
                   *Metadata includes the content of &quot;Details&quot; tab: author, creation date, contact information, license and statistical info.
-                  Index of studies includes some content of &quot;Studies&quot; tab: study id, study name, subject name and series name.
                 </div>
                 : <></>}
           </div>,
