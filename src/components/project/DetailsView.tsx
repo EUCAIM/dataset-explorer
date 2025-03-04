@@ -137,19 +137,25 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                         {
                             projQ.data.allowedActionsForTheUser.includes("config") 
                                 ? <>
-                                    <span><b>Contact info: </b>{confQ.data?.defaultContactInfo ?? ""}</span>
-                                    <span><b>License: </b>{
-                                                        license ? (
-                                                            license.url ? <a href={license.url}>{license.title ?? license.url}</a>
-                                                                    : license.title ?? ""
-                                                            )
-                                                            : ""
-                                                    }
-                                    </span>
-                                    <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
-                                    <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
-                                    <span><b>Zenodo grant: </b>{confQ.data?.zenodoGrant}</span>
-                                    <span><b>Zenodo API token: </b>{confQ.data?.zenodoAccessToken}</span>
+                                    <span><b>Creating datasets</b></span>
+                                    <div className="ms-4">
+                                        <span><b>Default contact info: </b>{confQ.data?.defaultContactInfo ?? ""}</span>
+                                        <span><b>Default license: </b>{
+                                                            license ? (
+                                                                license.url ? <a href={license.url}>{license.title ?? license.url}</a>
+                                                                        : license.title ?? ""
+                                                                )
+                                                                : ""
+                                                        }
+                                        </span>
+                                    </div>
+                                    <span><b>Publishing datasets</span>
+                                    <div className="ms-4">
+                                        <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
+                                        <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
+                                        <span><b>Zenodo grant: </b>{confQ.data?.zenodoGrant}</span>
+                                        <span><b>Zenodo API token: </b>{confQ.data?.zenodoAccessToken}</span>
+                                    </div>
                                     <Link to={UrlFactory.projectConfigEdit(code)}>Edit project configuration</Link>                             
                                 </> 
                                 : <></>
