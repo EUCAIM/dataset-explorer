@@ -113,6 +113,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                         <span><b>Project code: </b>{projQ.data.code}</span>
                         {
                             projQ.data.externalUrl 
+                                    || (keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("externalUrl")) 
                                 ? <span>
                                         <b>External URL: </b>
                                         <a href={projQ.data.externalUrl ?? "#"}>{projQ.data.externalUrl}</a>
