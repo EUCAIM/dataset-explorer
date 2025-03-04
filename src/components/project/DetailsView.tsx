@@ -90,7 +90,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                             }
                         </div>                     
                         {
-                            keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("logo") 
+                            keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("logoUrl") 
                                 ? <GenericFieldEdit oldValue={""} field="logoUrl" 
                                     keycloakReady={keycloakReady} 
                                     fieldDisplay="the logo (paste the URL to the  new logo in the input)"
