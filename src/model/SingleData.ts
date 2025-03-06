@@ -46,6 +46,7 @@ export default interface SingleData {
     seriesTags: string[];
     sizeInBytes: number | null; 
     lastIntegrityCheck:  string | null;
+    timesUsed: number;
     project: string;
     version: string;
     purpose: string;

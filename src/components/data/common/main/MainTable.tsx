@@ -560,6 +560,11 @@ function DatasetsMainTable(props: DatasetsMainTableProps): JSX.Element {
       Header: 'Subjects',
       id: "subjectsCount",
       accessor: 'subjectsCount'
+    },
+    {
+      Header: () => <Fragment>Times<br />used</Fragment>,
+      id: "timesUsed",
+      accessor: 'timesUsed'
     }
   ], [props]);
     return <Table singleDataType={props.singleDataType} columns={columns} data={props.data}

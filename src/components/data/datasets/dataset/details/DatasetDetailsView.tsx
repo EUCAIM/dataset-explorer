@@ -209,6 +209,11 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                     : <i>The amount of storage space that this dataset uses is not currently known.</i>
                   }
               </p>
+              {
+                dataset.timesUsed ? 
+                  <p><i>This dataset has been used <b>{dataset.timesUsed}</b> times.</i></p>
+                  : <Fragment />
+              }
             </div>
           </Col>
           <Col md={4}>
