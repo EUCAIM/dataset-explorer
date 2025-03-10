@@ -90,7 +90,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                             }
                         </div>                     
                         {
-                            keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("logo") 
+                            keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("logoUrl") 
                                 ? <GenericFieldEdit oldValue={""} field="logoUrl" 
                                     keycloakReady={keycloakReady} 
                                     fieldDisplay="the logo (paste the URL to the  new logo in the input)"
@@ -113,6 +113,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                         <span><b>Project code: </b>{projQ.data.code}</span>
                         {
                             projQ.data.externalUrl 
+                                    || (keycloak.authenticated && projQ.data.editablePropertiesByTheUser.includes("externalUrl")) 
                                 ? <span>
                                         <b>External URL: </b>
                                         <a href={projQ.data.externalUrl ?? "#"}>{projQ.data.externalUrl}</a>
@@ -136,23 +137,29 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                         {
                             projQ.data.allowedActionsForTheUser.includes("config") 
                                 ? <>
-                                    <span><b>Contact info: </b>{confQ.data?.defaultContactInfo ?? ""}</span>
-                                    <span><b>License: </b>{
-                                                        license ? (
-                                                            license.url ? <a href={license.url}>{license.title ?? license.url}</a>
-                                                                    : license.title ?? ""
-                                                            )
-                                                            : ""
-                                                    }
-                                    </span>
-                                    <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
-                                    <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
-                                    <span><b>Zenodo grant: </b>{confQ.data?.zenodoGrant}</span>
+                                    <span><b>Creating datasets</b></span>
+                                    <div className="ms-4">
+                                        <span><b>Default contact info: </b>{confQ.data?.defaultContactInfo ?? ""}</span>
+                                        <span><b>Default license: </b>{
+                                                            license ? (
+                                                                license.url ? <a href={license.url}>{license.title ?? license.url}</a>
+                                                                        : license.title ?? ""
+                                                                )
+                                                                : ""
+                                                        }
+                                        </span>
+                                    </div>
+                                    <span><b>Publishing datasets</span>
+                                    <div className="ms-4">
+                                        <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
+                                        <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
+                                        <span><b>Zenodo grant: </b>{confQ.data?.zenodoGrant}</span>
+                                        <span><b>Zenodo API token: </b>{confQ.data?.zenodoAccessToken}</span>
+                                    </div>
                                     <Link to={UrlFactory.projectConfigEdit(code)}>Edit project configuration</Link>                             
                                 </> 
                                 : <></>
                         }
-                        
 
                         <Link to={`/datasets?invalidated=false&project=${projQ.data.code}`}>List of Datasets</Link>                   
                     </div>
@@ -176,15 +183,6 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                     }
                     <div className="w-100 ms-4">{projQ.data.shortDescription ?? ""}</div>
                 </div>
-                {
-                    projQ.data.allowedActionsForTheUser.includes("config") 
-                            && confQ.data !== undefined
-                        ? <div className="w-100">
-                            <b className="w-100">Zenodo Token:</b>
-                            <div className="w-100 ms-4">{confQ.data.zenodoAccessToken ?? ""}</div>
-                        </div>
-                        : <></>
-                }
             </div>;
     } else {
         return <Alert variant="secondary">
