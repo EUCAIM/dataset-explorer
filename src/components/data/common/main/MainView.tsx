@@ -201,15 +201,15 @@ function MainView(props: MainViewProps) {
                   desc: sortDirection === "descending" ? true : false
                 }}
                 updSearchParams={updSearchParams}
-                />
-                <div className="d-flex flex-row justify-content-center w-100" >
+              />
+              <div className="d-flex flex-row justify-content-center w-100" >
                   {/*
                   <Button variant="link" className="position-relative start-50 me-4" disabled={skip === 0 ? true : false} onClick={(e) => updSearchParams({skip: skip - limit})}>&lt; Previous</Button>
                   <Button variant="link" className="position-relative start-50"  disabled={data?.list?.length <= limit ? true : false} onClick={(e) => updSearchParams({skip: skip + limit})}>Next &gt;</Button>
                   TableNavigationPages skip={skip} limit={limit} total={data} */}
                   <PaginationFooter skip={skip} limit={limit} total={data?.total ?? 0} onSkipChange={onSkipChange} />
-                </div>
               </div>
+            </div>
           </div>
         </Container>
       );

@@ -292,7 +292,6 @@ interface ColNameIdRenderProps {
 }
 
 function ColNameIdRender({row}: ColNameIdRenderProps): JSX.Element {
-  
   return (
     <Fragment>
     <span className="me-1">{row.original["name"]}</span>
@@ -312,7 +311,7 @@ interface ColFlagsRenderProps {
   row: Row<Dataset>
 }
 
-function ColFlagsRender({row}:ColFlagsRenderProps): JSX.Element {
+function ColFlagsRender({row}: ColFlagsRenderProps): JSX.Element {
   return (
       <div className="mt-1 mb-1">
         {( row.original["invalidated"] ? <Fragment><Badge pill bg="secondary">Invalidated</Badge><br /></Fragment> : <Fragment /> )}
@@ -322,6 +321,22 @@ function ColFlagsRender({row}:ColFlagsRenderProps): JSX.Element {
   );
 }
 
+interface ColCreatedRenderProps {
+  row: Row<Dataset>
+  // dateTimeParts: Array<string>
+}
+
+function ColCreatedRender({row}: ColCreatedRenderProps): JSX.Element {
+  var dateTimeParts = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long' })
+                                                                 .format(Date.parse(row.original["creationDate"])).split(',');
+  return (
+    <Fragment>
+    {dateTimeParts[0]}
+    <br />
+    {dateTimeParts[1]}
+    </Fragment>
+  );
+}
 
 interface TableProps {
 
@@ -546,10 +561,7 @@ function DatasetsMainTable(props: DatasetsMainTableProps): JSX.Element {
       Header: 'Created',
       id: "creationDate",
       accessor: 'creationDate',
-      Cell: ({ row }: CellProps<any>) => (
-          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'long' })
-            .format(Date.parse(row.original["creationDate"]))
-        )
+      Cell: ({ row }: CellProps<any>) => <ColCreatedRender  row={row}/> 
     },
     {
       Header: 'Studies',
@@ -560,6 +572,11 @@ function DatasetsMainTable(props: DatasetsMainTableProps): JSX.Element {
       Header: 'Subjects',
       id: "subjectsCount",
       accessor: 'subjectsCount'
+    },
+    {
+      Header: () => <Fragment>Times<br />used</Fragment>,
+      id: "timesUsed",
+      accessor: 'timesUsed'
     }
   ], [props]);
     return <Table singleDataType={props.singleDataType} columns={columns} data={props.data}
