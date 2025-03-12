@@ -149,7 +149,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                                                         }
                                         </span>
                                     </div>
-                                    <span><b>Publishing datasets</span>
+                                    <span><b>Publishing datasets</b></span>
                                     <div className="ms-4">
                                         <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
                                         <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
