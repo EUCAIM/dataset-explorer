@@ -12,6 +12,7 @@
     "defaultLimitStudies": 30,
     "defaultLimitTraces": 30,
     "defaultLimitAccess": 30,
+    "defaultLimitUsers": 30,
     "userAccountUrl": "https://eucaim-node.i3m.upv.es/auth/realms/EUCAIM-NODE/account",
     "refreshDatasetCreate": 15000,
     "keycloak": {

@@ -18,6 +18,10 @@ import Project from '../model/project/Project';
 import ProjectConfig from '../model/project/ProjectConfig';
 import ProjectList from '../model/project/ProjectList';
 import { ProjectFull } from '../model/project/ProjectFull';
+import User from '../model/user/User';
+import UserUpdate from '../model/user/UserUpdate';
+import ManagementJob from '../model/ManagementJob';
+import UserListItem from '../model/user/UserListItem';
 
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: '' }),
@@ -343,8 +347,91 @@ export const api = createApi({
   
           },
         invalidatesTags: ["Project", "ProjectList"],
-      }),
-    
+    }),
+
+    getUsersPage: build.query<ItemPage<UserListItem>, GetUsersPageT>({
+      queryFn: async ({token, qParams}: GetUsersPageT)  => {
+          try {
+            return { data: await call("GET", 
+              `${BASE_URL_API}/users`, 
+              token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+              null, "text", qParams) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+      providesTags: ["UserList"],
+    }),
+
+    getUser: build.query<User, GetUserT>({
+      queryFn: async ({token, username}: GetUserT)  => {
+          try {
+              return { data: await call("GET", 
+                `${BASE_URL_API}/users/${username}?scope=all`, 
+                token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+                null, "text", null) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+      providesTags: ["User"],
+    }),
+
+    putUser: build.mutation<boolean, PutUserT>({
+      queryFn: async ({user, token,  username}: PutUserT)  => {
+          try {
+              const headers = new Map([["Content-Type",  "application/json"]]);
+              if (token) { headers.set("Authorization", "Bearer " + token); } 
+              else { return { error: generateError("Invalid token.") } }
+              await call("PUT", 
+                  `${BASE_URL_API}/users/${username}`, headers,
+                  JSON.stringify(user), "text", null);
+                  return {data: true};
+          } catch(error) { return { error: generateError(error) }; }
+        },
+      invalidatesTags: ["User"],
+    }),
+
+    getUserSites: build.query<Array<string>, GetUserSitesT>({
+      queryFn: async ({token}: GetUserSitesT)  => {
+          try {
+              return { data: await call("GET", 
+                `${BASE_URL_API}/userSites`, 
+                token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+                null, "text", null) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+    }),
+
+    getUserRoles: build.query<Array<string>, GetUserRolesT>({
+      queryFn: async ({token}: GetUserRolesT)  => {
+          try {
+              return { data: await call("GET", 
+                `${BASE_URL_API}/userRoles`, 
+                token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+                null, "text", null) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+    }),
+
+    getUserManagementJobs: build.query<Array<ManagementJob>, GetUserManagementJobsT>({
+      queryFn: async ({token, username}: GetUserManagementJobsT)  => {
+          try {
+              return { data: await call("GET", 
+                `${BASE_URL_API}/users/${username}/managementJobs`, 
+                token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+                null, "text", null) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+    }),
+
+    getUserManagementJobLogs: build.query<string, GetUserManagementJobLogsT>({
+      queryFn: async ({token, username, selectorUid}: GetUserManagementJobLogsT)  => {
+          try {
+              return { data: await call("GET", 
+                `${BASE_URL_API}/users/${username}/managementJobs/${selectorUid}`, 
+                token ? new  Map([["Authorization", "Bearer " + token]]) : null,
+                null, "text", null) };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+    }),
+
   }),
 })
 
@@ -447,9 +534,42 @@ interface PatchProjectT {
     code: string;
     property: string;
     value: string | boolean | null;
-  }
+}
 
+interface GetUsersPageT {
+  token: string  | null | undefined;
+  qParams:  QueryParamsType;
+}
 
+interface GetUserT {
+  token: string | null | undefined;
+  username: string;
+}
+
+interface PutUserT {
+  user: UserUpdate;
+  token: string;
+  username: string;
+}
+
+interface GetUserSitesT {
+  token: string | null | undefined;
+}
+
+interface GetUserRolesT {
+  token: string | null | undefined;
+}
+
+interface GetUserManagementJobsT {
+  token: string | null | undefined;
+  username: string;
+}
+
+interface GetUserManagementJobLogsT {
+  token: string | null | undefined;
+  username: string;
+  selectorUid: string;
+}
 
 export const { 
   useGetSingleDataPageQuery, 
@@ -468,4 +588,13 @@ export const {
   useGetProjectsQuery,
   useGetProjectQuery,
     useGetProjectConfigQuery,
-    usePatchProjectMutation} = api
+    usePatchProjectMutation,
+  useGetUsersPageQuery,
+  useGetUserQuery,
+  usePutUserMutation,
+  useGetUserSitesQuery,
+  useGetUserRolesQuery,
+  useGetUserManagementJobsQuery,
+  useGetUserManagementJobLogsQuery,
+  useLazyGetUserManagementJobLogsQuery
+} = api

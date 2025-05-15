@@ -1,4 +1,4 @@
-import {Tab, Row, Col, Container, Nav, Alert } from "react-bootstrap";
+import {Row, Col, Container, Alert } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { Fragment, useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/web";
@@ -15,6 +15,7 @@ import Util from "../../../../../Util";
 import CheckIntegrity from "../../../../../model/CheckIntegrity";
 import config from "../../../../../service/config";
 import DelCancelSingleDataMsg from "../../../../common/DelCancelSingleDataMsg";
+import TabsView from "../../../../common/TabsView";
 
 
 
@@ -160,33 +161,8 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
           <Container fluid className="w-100 h-75">
             <DelCancelSingleDataMsg deleteError={deleteError} />
             <IntegrityMessage integrityError={integrityError} integrityData={integrityData} integrityUpdating={integrityUpdating} />
-            <Tab.Container defaultActiveKey="details" activeKey={props.activeTab} 
-                  onSelect={(k) => {console.log(k);navigate(`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}/${k}`)}}>
-              <Row>
-                <Col sm={2}>
-                  <Nav variant="pills" className="flex-column mb-5">
-                    {
-                      props.tabs.map(s => 
-                        <Nav.Item key={`singledata-categories-${s.eventKey}`}>
-                          <Nav.Link eventKey={s.eventKey}>{s.title}</Nav.Link>
-                        </Nav.Item>
-                      )
-                    }
-                  </Nav>
-                </Col>
-                <Col sm={10}>
-                  <Tab.Content>
-                    {
-                      props.tabs.filter(s => s.eventKey === props.activeTab).map(s => 
-                        <Tab.Pane key={`singledata-categories-tab-${s.eventKey}`} eventKey={s.eventKey}>
-                            {s.view}
-                        </Tab.Pane>
-                      )
-                    }
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Tab.Container>
+            <TabsView basePath={`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}`} 
+                      tabs={props.tabs} defaultTab="details" activeTab={props.activeTab} />
           </Container>
         </Fragment>
           );

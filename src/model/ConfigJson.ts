@@ -47,6 +47,7 @@ export default interface ConfigJson {
     defaultLimitStudies: number;
     defaultLimitTraces: number;
     defaultLimitAccess: number;
+    defaultLimitUsers: number;
     userAccountUrl: string;
     refreshDatasetCreate: number;
     keycloak: KeycloakOpts;
