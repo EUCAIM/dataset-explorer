@@ -87,12 +87,11 @@ function App({keycloakReady}: AppProps) {
   }
 
   return (
-          
     <Fragment>
-            <Dialog settings={dlgState} />
-            <MessageView message={message} />
-            <NavbarView />
-            <div className="flex-grow-1 align-items-stretch ms-3 me-3">
+      <Dialog settings={dlgState} />
+      <MessageView message={message} />
+      <NavbarView />
+      <div className="flex-grow-1 d-flex flex-column align-items-stretch ms-3 me-3 pt-3">
         <BrowserRouter basename={config.basename}>
           <Routes>
             <Route path="/" element={<Navigate to="/datasets" replace />} />
