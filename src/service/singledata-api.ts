@@ -141,6 +141,48 @@ export const api = createApi({
         },
         invalidatesTags: ["ModelAcl", "DatasetAcl"],
     }),
+    postSingleDataRestartCreation: build.mutation<boolean, PostSingleDataRestartCreationT>({
+      queryFn: async ({token, id, singleDataType }: PostSingleDataCheckIntegrityT)  => {
+        try {
+            const headers = new Map();
+            if (token) { headers.set("Authorization", "Bearer " + token); }
+            else { return { error: generateError("Invalid token.") } }
+            await call("POST", 
+              `${BASE_URL_API}/${Util.singleDataPath(singleDataType)}/${id}/restartCreation`, 
+              headers, null, "text", null)
+            return { data: true };
+          } catch(error) { return { error: generateError(error) }; }
+        },
+        invalidatesTags: ["Model", "Dataset"],
+    }),
+    postSingleDataReadjustFilePermissions: build.mutation<boolean, PostSingleDataReadjustFilePermissionsT>({
+      queryFn: async ({token, id, singleDataType}: PostSingleDataReadjustFilePermissionsT)  => {
+        try {
+          const headers = new Map();
+          if (token) { headers.set("Authorization", "Bearer " + token); }
+          else { return { error: generateError("Invalid token.") } }
+          await call("POST", 
+            `${BASE_URL_API}/${Util.singleDataPath(singleDataType)}/${id}/readjustFilePermissions`, 
+            headers, null, "text", null)
+          return { data: true };
+        } catch(error) { return { error: generateError(error) }; }
+      },
+      invalidatesTags: ["Model", "Dataset"],
+    }),
+    postSingleDataRecollectMetadata: build.mutation<boolean, PostSingleDataRecollectMetadataT>({
+      queryFn: async ({token, id, singleDataType}: PostSingleDataRecollectMetadataT)  => {
+        try {
+          const headers = new Map();
+          if (token) { headers.set("Authorization", "Bearer " + token); }
+          else { return { error: generateError("Invalid token.") } }
+          await call("POST", 
+            `${BASE_URL_API}/${Util.singleDataPath(singleDataType)}/${id}/recollectMetadata`, 
+            headers, null, "text", null)
+          return { data: true };
+        } catch(error) { return { error: generateError(error) }; }
+      },
+      invalidatesTags: ["Model", "Dataset"],
+    }),
     postSingleDataCheckIntegrity: build.mutation<CheckIntegrity, PostSingleDataCheckIntegrityT>({
       queryFn: async ({token, id, singleDataType }: PostSingleDataCheckIntegrityT)  => 
         {
@@ -156,7 +198,6 @@ export const api = createApi({
                 headers,
                 null, "text", null) };
           } catch(error) { return { error: generateError(error) }; }
-
         },
         invalidatesTags: ["Model", "Dataset"],
     }),
@@ -176,7 +217,6 @@ export const api = createApi({
               null, "text", null)
               return { data: { name, id, type: singleDataType} as DeletedSingleData };
           } catch(error) { return { error: generateError(error) }; }
-
         },
         invalidatesTags: ["Model", "Dataset"],
     }),
@@ -468,11 +508,25 @@ interface PutSingleDataAclT {
   username: string;
 }
 
+interface PostSingleDataRestartCreationT {
+  token: string  | null |undefined;
+  id:  string;
+  singleDataType: SingleDataType;
+}
+interface PostSingleDataReadjustFilePermissionsT {
+  token: string  | null |undefined;
+  id:  string;
+  singleDataType: SingleDataType;
+}
+interface PostSingleDataRecollectMetadataT {
+  token: string  | null |undefined;
+  id:  string;
+  singleDataType: SingleDataType;
+}
 interface PostSingleDataCheckIntegrityT {
   token: string  | null |undefined;
   id:  string;
   singleDataType: SingleDataType;
-
 }
 interface DeleteSingleDataCreatingT {
   token: string  | null |undefined;
@@ -577,6 +631,9 @@ export const {
   useGetSingleDataAclQuery,
   useDeleteSingleDataAclMutation,
   usePutSingleDataAclMutation,
+  usePostSingleDataRestartCreationMutation,
+  usePostSingleDataReadjustFilePermissionsMutation,
+  usePostSingleDataRecollectMetadataMutation,
   usePostSingleDataCheckIntegrityMutation,
   useDeleteSingleDataCreatingMutation,
   usePatchSingleDataMutation,

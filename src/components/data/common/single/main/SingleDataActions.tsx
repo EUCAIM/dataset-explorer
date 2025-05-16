@@ -7,7 +7,9 @@ import SingleDataView from "./SingleDataView";
 import Dialog from "../../../../common/Dialog";
 import DialogSize from "../../../../../model/DialogSize";
 import SingleDataType from "../../../../../model/SingleDataType";
-import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, usePatchSingleDataMutation, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
+import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, usePatchSingleDataMutation, 
+         usePostSingleDataRestartCreationMutation, usePostSingleDataReadjustFilePermissionsMutation, 
+         usePostSingleDataRecollectMetadataMutation, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
 
 function getAction(actionCb: Function, txt: string, keyName: string): JSX.Element {
       return <Dropdown.Item eventKey={keyName} key={keyName} href="#"
@@ -75,9 +77,10 @@ function SingleDataActions<T extends SingleData>({ showDialog, keycloakReady, si
     }
   )
 
-  const [ postSingleDataCheckIntegrity ] = usePostSingleDataCheckIntegrityMutation({
-    fixedCacheKey: "postSingleDataCheckIntegrity"
-  });
+  const [ postSingleDataRestartCreation ] = usePostSingleDataRestartCreationMutation({fixedCacheKey: "postSingleDataRestartCreation"});
+  const [ postSingleDataReadjustFilePermissions ] = usePostSingleDataReadjustFilePermissionsMutation({fixedCacheKey: "postSingleDataReadjustFilePermissions"});
+  const [ postSingleDataRecollectMetadata ] = usePostSingleDataRecollectMetadataMutation({fixedCacheKey: "postSingleDataRecollectMetadata"});
+  const [ postSingleDataCheckIntegrity ] = usePostSingleDataCheckIntegrityMutation({fixedCacheKey: "postSingleDataCheckIntegrity"});
 
   const [ deleteSingleDataCreating ] = useDeleteSingleDataCreatingMutation({
     fixedCacheKey: "deleteSingleDataCreating"
@@ -142,6 +145,33 @@ function SingleDataActions<T extends SingleData>({ showDialog, keycloakReady, si
 
     let entries = [];
     if (keycloak.authenticated && data) {
+      if (data.allowedActionsForTheUser.includes("restartCreation")) {
+        entries.push( 
+          getAction(() => postSingleDataRestartCreation({
+            token: keycloak.token,
+            singleDataType: singleDataType,
+            id: singleDataId
+          }), 
+                  "Restart creation", "action-restart-creation"));
+      }
+      if (data.allowedActionsForTheUser.includes("readjustFilePermissions")) {
+        entries.push( 
+          getAction(() => postSingleDataReadjustFilePermissions({
+            token: keycloak.token,
+            singleDataType: singleDataType,
+            id: singleDataId
+          }), 
+                  "Readjust file permissions", "action-readjust-file-permissions"));
+      }
+      if (data.allowedActionsForTheUser.includes("recollectMetadata")) {
+        entries.push( 
+          getAction(() => postSingleDataRecollectMetadata({
+            token: keycloak.token,
+            singleDataType: singleDataType,
+            id: singleDataId
+          }), 
+                  "Recollect metadata", "action-recollect-metadata"));
+      }
       if (data.allowedActionsForTheUser.includes("checkIntegrity")) {
         entries.push( 
           getAction(() => postSingleDataCheckIntegrity({
@@ -149,7 +179,7 @@ function SingleDataActions<T extends SingleData>({ showDialog, keycloakReady, si
             singleDataType: singleDataType,
             id: singleDataId
           }), 
-                  "Check Integrity", "action-checkintegrity"));
+                  "Check integrity", "action-checkintegrity"));
       }
       if (!data["creating"] && !data["invalidated"] 
         && data.allowedActionsForTheUser.includes("use")) {
@@ -195,7 +225,7 @@ function SingleDataActions<T extends SingleData>({ showDialog, keycloakReady, si
               singleDataType,
               name: data.name
             }), 
-              "Cancel & Delete", "action-cancel-delete")
+              "Cancel & delete", "action-cancel-delete")
             );
         }
 
