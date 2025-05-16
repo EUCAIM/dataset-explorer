@@ -37,7 +37,10 @@
     },
     "externalLinks": {
       "supportReportRequest": "https://github.com/EUCAIM/UPV-node/issues",
-        "applicationCatalogue": "https://github.com/EUCAIM/upv-node-application-catalogue/blob/main/README.md"
+        "applicationCatalogue": "https://github.com/EUCAIM/upv-node-application-catalogue/blob/main/README.md",
+        "datasetUsageGuide": "https://github.com/chaimeleon-eu/workstation-images/blob/main/ubuntu-python/rootfs/home/chaimeleon/application-examples/dataset-access-guide.ipynb",
+        "workstationUsageGuide": "https://github.com/chaimeleon-eu/workstation-images/blob/main/usage-guide.md",
+        "appIntegration": "https://github.com/chaimeleon-eu/workstation-images/blob/main/README.md#how-to-integrate-your-application-in-chaimeleon-platform"
     },
     "externalServices": [
       {
