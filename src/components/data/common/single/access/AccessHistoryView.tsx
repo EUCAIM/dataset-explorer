@@ -167,6 +167,10 @@ function AccessHistoryView(props: AccessHistoryViewProps): JSX.Element {
         Cell: ({ row }: CellProps<any>) => (getLongType(row.original["accessType"]))
       },
       {
+        Header: 'Instance name',
+        accessor: 'instanceName'
+      },
+      {
         Header: 'Tool',
         Cell: ({ row }: CellProps<any>) => (`${row.original["toolName"]} (${row.original["toolVersion"]})`)
       },
