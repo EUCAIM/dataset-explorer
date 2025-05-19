@@ -10,7 +10,9 @@ import SingleDataActions from "./SingleDataActions";
 import LoadingView from "../../../../common/LoadingView";
 import ErrorView from "../../../../common/ErrorView";
 import SingleDataType from "../../../../../model/SingleDataType";
-import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
+import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, 
+         usePostSingleDataRestartCreationMutation, usePostSingleDataReadjustFilePermissionsMutation, 
+         usePostSingleDataRecollectMetadataMutation, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
 import Util from "../../../../../Util";
 import CheckIntegrity from "../../../../../model/CheckIntegrity";
 import config from "../../../../../service/config";
@@ -54,15 +56,30 @@ SingleDataView.SHOW_DLG_APP_DASHBOARD = "dlg-app-dashboard"
 //     element.dispatchEvent(event);
 // }
 
+interface ActionMessageT {
+  action: string;
+  error: any;
+  data: boolean | undefined;
+  updating: boolean;
+}
+function ActionMessage({action, error, data, updating}: ActionMessageT): JSX.Element {
+  if (error) {
+    return <ErrorView message={`Error ${action}: ${error.message}`} />
+  } else if (updating) {
+    return <></>; 
+  } else if (data) {
+      return <Alert variant="success" dismissible={true}>
+                <Alert.Heading> Successfully started {action} </Alert.Heading>
+             </Alert>
+  } else { return <></>; }
+}
+
 interface IntegrityMessageT {
   integrityError: any;
   integrityData: CheckIntegrity | undefined;
   integrityUpdating: boolean;
 }
-
-
 function IntegrityMessage({integrityError, integrityData, integrityUpdating}: IntegrityMessageT): JSX.Element {
-
   if (integrityError) {
     return <ErrorView message={`Error checking integrity: ${integrityError.message}`} />
   } else if (integrityUpdating) {
@@ -70,22 +87,16 @@ function IntegrityMessage({integrityError, integrityData, integrityUpdating}: In
   } else if (integrityData) {
     if (integrityData.success) {
       return <Alert variant="success" dismissible={true}>
-        <Alert.Heading>
-        Integrity check process started successfully
-        </Alert.Heading>
+        <Alert.Heading> Integrity check process started successfully </Alert.Heading>
         {integrityData.msg}
       </Alert>
     } else {
       return <Alert variant="danger" dismissible={true}>
-        <Alert.Heading>
-        Error starting the integrity check process
-        </Alert.Heading>
+        <Alert.Heading> Error starting the integrity check process </Alert.Heading>
         {integrityData.msg}
       </Alert>
     }
-  } else {
-    return <></>;
-  }
+  } else { return <></>; }
 }
 
 
@@ -109,7 +120,15 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
   //const [activeTab, setActivetab] = useState<string>(props.activeTab);
   const singleDataId: string = params["singleDataId"] ?? "";//props.datasetId;
 
-
+  const [ , { error: restartCreationError, data: restartCreationData, isLoading: restartCreationUpdating }] = usePostSingleDataRestartCreationMutation({
+    fixedCacheKey: "postSingleDataRestartCreation"
+  });
+  const [ , { error: readjustPermissionsError, data: readjustPermissionsData, isLoading: readjustPermissionsUpdating }] = usePostSingleDataReadjustFilePermissionsMutation({
+    fixedCacheKey: "postSingleDataReadjustFilePermissions"
+  });
+  const [ , { error: recollectMetadataError, data: recollectMetadataData, isLoading: recollectMetadataUpdating }] = usePostSingleDataRecollectMetadataMutation({
+    fixedCacheKey: "postSingleDataRecollectMetadata"
+  });
   const [ , { error: integrityError, data: integrityData, isLoading: integrityUpdating }] = usePostSingleDataCheckIntegrityMutation({
     fixedCacheKey: "postSingleDataCheckIntegrity"
   });
@@ -160,6 +179,9 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
           </Row>
           <Container fluid className="w-100 h-75">
             <DelCancelSingleDataMsg deleteError={deleteError} />
+            <ActionMessage action="restarting creation" error={restartCreationError} data={restartCreationData} updating={restartCreationUpdating} />
+            <ActionMessage action="readjusting file permissions" error={readjustPermissionsError} data={readjustPermissionsData} updating={readjustPermissionsUpdating} />
+            <ActionMessage action="recollecting metadata" error={recollectMetadataError} data={recollectMetadataData} updating={recollectMetadataUpdating} />
             <IntegrityMessage integrityError={integrityError} integrityData={integrityData} integrityUpdating={integrityUpdating} />
             <TabsView basePath={`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}`} 
                       tabs={props.tabs} defaultTab="details" activeTab={props.activeTab} />
