@@ -5,10 +5,10 @@ import { useTable, useRowSelect, useFilters, useGlobalFilter, useSortBy, Row, Co
 import React, { Fragment, useMemo } from 'react';
 import {matchSorter} from 'match-sorter';
 
-import DataManager from "../../../api/DataManager";
-import TableNoData from "../../common/TableNoData";
-import UrlFactory from "../../../service/UrlFactory";
-import UserListItem from "../../../model/user/UserListItem";
+import DataManager from "../../api/DataManager";
+import TableNoData from "../common/TableNoData";
+import UrlFactory from "../../service/UrlFactory";
+import UserListItem from "../../model/user/UserListItem";
 
 
 interface DefaultColumnFilterColumn {

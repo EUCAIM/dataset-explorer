@@ -1,11 +1,11 @@
 import React, { ChangeEvent, Fragment, useCallback, useEffect, useState } from "react";
 import {  Alert, Button, Form } from "react-bootstrap";
 import { useKeycloak } from "@react-keycloak/web";
-import LoadingView from "../../../common/LoadingView";
-import ErrorView from "../../../common/ErrorView";
-import { useGetUserManagementJobsQuery, useLazyGetUserManagementJobLogsQuery } from "../../../../service/singledata-api";
-import Util from "../../../../Util";
-import ManagementJob from "../../../../model/ManagementJob";
+import LoadingView from "../../common/LoadingView";
+import ErrorView from "../../common/ErrorView";
+import { useGetUserManagementJobsQuery, useLazyGetUserManagementJobLogsQuery } from "../../../service/singledata-api";
+import Util from "../../../Util";
+import ManagementJob from "../../../model/ManagementJob";
 
 interface UserDetailsViewProps {
   showDialog: Function;

@@ -1,7 +1,7 @@
 import SingleDataType from "../model/SingleDataType";
 import Util from "../Util";
 import config from "../service/config";
-import UserView from "../components/data/users/user/UserView";
+import UserView from "../components/users/user/UserView";
 
 /**
  * TO BE USED WITH THE REACT ROUTER (navigate, Link etc.)

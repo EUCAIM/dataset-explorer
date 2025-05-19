@@ -1,18 +1,18 @@
 import React, { Fragment, useMemo } from "react";
 import { Row, Col, Container } from "react-bootstrap";
-import DataManager from "../../../../api/DataManager";
-import SingleItemTab from "../../../../model/SingleItemTab";
+import DataManager from "../../../api/DataManager";
+import SingleItemTab from "../../../model/SingleItemTab";
 import { useKeycloak } from "@react-keycloak/web";
-import Util from "../../../../Util";
+import Util from "../../../Util";
 import { useParams } from "react-router-dom";
 //import LoadingError from "../../../../model/LoadingError";
-import ResourceNotFoundView from "../../../common/ResourceNotFoundView";
-import { useGetUserQuery } from "../../../../service/singledata-api";
-import LoadingView from "../../../common/LoadingView";
-import ErrorView from "../../../common/ErrorView";
-import Breadcrumbs from "../../../common/Breadcrumbs";
-import TabsView from "../../../common/TabsView";
-import UrlFactory from "../../../../service/UrlFactory";
+import ResourceNotFoundView from "../../common/ResourceNotFoundView";
+import { useGetUserQuery } from "../../../service/singledata-api";
+import LoadingView from "../../common/LoadingView";
+import ErrorView from "../../common/ErrorView";
+import Breadcrumbs from "../../common/Breadcrumbs";
+import TabsView from "../../common/TabsView";
+import UrlFactory from "../../../service/UrlFactory";
 import UserDetailsView from "./UserDetailsView";
 import UserLogsView from "./UserLogsView";
 

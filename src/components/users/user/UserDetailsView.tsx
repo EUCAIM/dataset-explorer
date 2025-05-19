@@ -2,15 +2,15 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import {  Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useKeycloak } from "@react-keycloak/web";
 import { useNavigate } from "react-router-dom";
-import LoadingView from "../../../common/LoadingView";
-import ErrorView from "../../../common/ErrorView";
+import LoadingView from "../../common/LoadingView";
+import ErrorView from "../../common/ErrorView";
 import { useGetUserQuery, usePutUserMutation, useGetUserSitesQuery, useGetUserRolesQuery, useGetProjectsQuery } 
-  from "../../../../service/singledata-api";
-import Util from "../../../../Util";
-import UrlFactory from "../../../../service/UrlFactory";
-import GetProjectsPurpose from "../../../../model/project/GetProjectsPurpose";
-import MultiSelect from "../../../common/MultiSelect";
-import { UserAttributeGroup, UserAttribute } from "../../../../model/user/User";
+  from "../../../service/singledata-api";
+import Util from "../../../Util";
+import UrlFactory from "../../../service/UrlFactory";
+import GetProjectsPurpose from "../../../model/project/GetProjectsPurpose";
+import MultiSelect from "../../common/MultiSelect";
+import { UserAttributeGroup, UserAttribute } from "../../../model/user/User";
 
 interface UserDetailsViewProps {
   showDialog: Function;

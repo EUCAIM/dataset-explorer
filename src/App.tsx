@@ -24,8 +24,8 @@ import ProjectDetailsView from "./components/project/DetailsView";
 import UrlFactory from "./service/UrlFactory";
 import NewProjectView from "./components/project/NewProjectView";
 import ConfigEditorView from "./components/project/ConfigEditorView";
-import UsersMainView from "./components/data/users/UsersMainView";
-import UserView from "./components/data/users/user/UserView";
+import UsersMainView from "./components/users/UsersMainView";
+import UserView from "./components/users/user/UserView";
 
 interface Dsv {
   tab: string;

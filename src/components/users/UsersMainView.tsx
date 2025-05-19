@@ -3,13 +3,13 @@ import { Alert, Container } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useKeycloak } from '@react-keycloak/web';
 
-import DataManager from "../../../api/DataManager";
-import SearchComponent from "../../common/SearchComponent";
-import Util from "../../../Util";
-import config from "../../../service/config";
-import { useGetUsersPageQuery } from "../../../service/singledata-api";
-import FilteringView from "../common/main/filter/FilteringView";
-import PaginationFooter from "../../common/PaginationFooter";
+import DataManager from "../../api/DataManager";
+import SearchComponent from "../common/SearchComponent";
+import Util from "../../Util";
+import config from "../../service/config";
+import { useGetUsersPageQuery } from "../../service/singledata-api";
+import FilteringView from "../data/common/main/filter/FilteringView";
+import PaginationFooter from "../common/PaginationFooter";
 import MainTable from "./MainTable";
 
 
