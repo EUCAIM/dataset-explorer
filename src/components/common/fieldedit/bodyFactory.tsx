@@ -24,20 +24,22 @@ function bodyFactory(spec: BodyFactorySpecType, field:string, updValue: Function
     } else if (spec === BodyFactorySpecType.SINGLEDATA) {
         if (field === "license" || field === "licenseUrl") {
             return <BodyLicense updValue={updValue} oldValue={oldValue} keycloakReady={keycloakReady}/>;
-          } else if (field === "pids") {
+        } else if (field === "pids") {
             return <BodyPid updValue={updValue} oldValue={oldValue} />;
-          } else if (field === "previousId") {
+        } else if (field === "previousId") {
             return <BodyId updValue={updValue} oldValue={oldValue} keycloakReady={keycloakReady}
                 additionalProps={additionalProps}/>;
-          } else if (field === "typeApi") {
-            return <BodyEnumSelect updValue={updValue} oldValue={oldValue} allValues={Object.values(SingleDataTypeApiType)}/>;
-          } else if (field === "collectionMethod") {
-            return <BodyEnumSelect updValue={updValue} oldValue={oldValue} allValues={Object.values(CollectionMethodType)}/>;
-          } else if (field === "description" || field === "provenance" || field === "purpose") {
+        } else if (field === "typeApi") {
+            return <BodyEnumSelect updValue={updValue as (newValue: string[]) => void} 
+                                   oldValue={oldValue} allValues={Object.values(SingleDataTypeApiType)}/>;
+        } else if (field === "collectionMethod") {
+            return <BodyEnumSelect updValue={updValue as (newValue: string[]) => void} 
+                                   oldValue={oldValue} allValues={Object.values(CollectionMethodType)}/>;
+        } else if (field === "description" || field === "provenance" || field === "purpose") {
             return <Body updValue={updValue} oldValue={oldValue} inputType="textarea"/>;
-          } else {
+        } else {
             return <Body updValue={updValue} oldValue={oldValue} />;
-          }
+        }
     }  else if (spec === BodyFactorySpecType.DATASET) {
         return <Body updValue={updValue} oldValue={oldValue} />;
     } else {

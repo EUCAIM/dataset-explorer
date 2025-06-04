@@ -75,7 +75,7 @@ function ConfigEditorView():JSX.Element {
             {
                 isErrorPutPrjCnf ? <ErrorView  message={`Error submitting the new project configuration: ${Util.getError(errorPutPrjCnf).message}`} /> :<></>
             }
-            <Form className="ms-2 me-2" onSubmit={submit}>
+            <Form className="ms-2 me-2 limited-width-form" onSubmit={submit}>
 
                 <ConfigEditorCommon setConfig={setConfig} config={data} />
 

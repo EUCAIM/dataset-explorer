@@ -77,7 +77,7 @@ function NewProjectView({setCreatedSuccessfully}: NewProjectViewProps): JSX.Elem
         {
             isLoading ? <LoadingView fullMessage="Creating project, please wait..." /> : <></>
         }
-        <Form className="ms-2 me-2" onSubmit={submit}>
+        <Form className="ms-2 me-2 limited-width-form" onSubmit={submit}>
             <Form.Group className="mb-3" title="Set the code of the project. This field is required.">
                 <Form.Label>Code <span className="text-danger">*</span></Form.Label>
                 <Form.Control placeholder="Enter project's code"name="code" />

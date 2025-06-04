@@ -2,10 +2,19 @@ import React, { useCallback, MouseEvent } from "react";
 import { Button, Badge, Row, Col, Container } from "react-bootstrap";
 import { CheckCircle, CheckCircleFill, DashCircle, DashCircleFill, XCircleFill, XCircle } from "react-bootstrap-icons";
 
+export interface FilterFlag {
+    name: string;
+    flag: string;
+    backgroundVariant: string;
+    textColor: string;
+    valueForRemove: string | null;
+}
+
 interface FilterFlagsProps {
     searchParams: URLSearchParams;
     filterUpdate: Function;
     loading: boolean;
+    flags: Array<FilterFlag>;
 }
 
 
@@ -72,7 +81,7 @@ function getFilterFlag(searchParams: URLSearchParams,
     )
 }
 
-function FilterFlags({searchParams, filterUpdate, loading}: FilterFlagsProps) {
+function FilterFlags({searchParams, filterUpdate, loading, flags}: FilterFlagsProps) {
     const updParamsCb = useCallback((e: MouseEvent) => {
         const el = e.target as HTMLInputElement;
         const k: string | null = el.getAttribute("data-filter");
@@ -86,9 +95,10 @@ function FilterFlags({searchParams, filterUpdate, loading}: FilterFlagsProps) {
     return <div className="mt-1 mb-4">
         <h6>Dataset flags</h6>
             <Container className="m-0 p-0">
-                {getFilterFlag(searchParams, "Draft", "draft", updParamsCb, "light", "dark", null, disabled)}
-                {getFilterFlag(searchParams, "Published", "public", updParamsCb, "dark", "light", null, disabled)}
-                {getFilterFlag(searchParams, "Invalidated", "invalidated", updParamsCb, "secondary", "light", "", disabled)}
+                {
+                    flags.map((f: FilterFlag) =>
+                        getFilterFlag(searchParams, f.name, f.flag, updParamsCb, f.backgroundVariant, f.textColor, f.valueForRemove, disabled))
+                }
             </Container>
     </div>;
 }
