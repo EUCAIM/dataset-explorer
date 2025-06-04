@@ -1,4 +1,4 @@
-import {Tab, Row, Col, Container, Nav, Alert } from "react-bootstrap";
+import {Row, Col, Container, Alert } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import React, { Fragment, useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/web";
@@ -10,11 +10,14 @@ import SingleDataActions from "./SingleDataActions";
 import LoadingView from "../../../../common/LoadingView";
 import ErrorView from "../../../../common/ErrorView";
 import SingleDataType from "../../../../../model/SingleDataType";
-import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
+import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery, 
+         usePostSingleDataRestartCreationMutation, usePostSingleDataReadjustFilePermissionsMutation, 
+         usePostSingleDataRecollectMetadataMutation, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
 import Util from "../../../../../Util";
 import CheckIntegrity from "../../../../../model/CheckIntegrity";
 import config from "../../../../../service/config";
 import DelCancelSingleDataMsg from "../../../../common/DelCancelSingleDataMsg";
+import TabsView from "../../../../common/TabsView";
 
 
 
@@ -53,15 +56,30 @@ SingleDataView.SHOW_DLG_APP_DASHBOARD = "dlg-app-dashboard"
 //     element.dispatchEvent(event);
 // }
 
+interface ActionMessageT {
+  action: string;
+  error: any;
+  data: boolean | undefined;
+  updating: boolean;
+}
+function ActionMessage({action, error, data, updating}: ActionMessageT): JSX.Element {
+  if (error) {
+    return <ErrorView message={`Error ${action}: ${error.message}`} />
+  } else if (updating) {
+    return <></>; 
+  } else if (data) {
+      return <Alert variant="success" dismissible={true}>
+                <Alert.Heading> Successfully started {action} </Alert.Heading>
+             </Alert>
+  } else { return <></>; }
+}
+
 interface IntegrityMessageT {
   integrityError: any;
   integrityData: CheckIntegrity | undefined;
   integrityUpdating: boolean;
 }
-
-
 function IntegrityMessage({integrityError, integrityData, integrityUpdating}: IntegrityMessageT): JSX.Element {
-
   if (integrityError) {
     return <ErrorView message={`Error checking integrity: ${integrityError.message}`} />
   } else if (integrityUpdating) {
@@ -69,22 +87,16 @@ function IntegrityMessage({integrityError, integrityData, integrityUpdating}: In
   } else if (integrityData) {
     if (integrityData.success) {
       return <Alert variant="success" dismissible={true}>
-        <Alert.Heading>
-        Integrity check process started successfully
-        </Alert.Heading>
+        <Alert.Heading> Integrity check process started successfully </Alert.Heading>
         {integrityData.msg}
       </Alert>
     } else {
       return <Alert variant="danger" dismissible={true}>
-        <Alert.Heading>
-        Error starting the integrity check process
-        </Alert.Heading>
+        <Alert.Heading> Error starting the integrity check process </Alert.Heading>
         {integrityData.msg}
       </Alert>
     }
-  } else {
-    return <></>;
-  }
+  } else { return <></>; }
 }
 
 
@@ -108,7 +120,15 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
   //const [activeTab, setActivetab] = useState<string>(props.activeTab);
   const singleDataId: string = params["singleDataId"] ?? "";//props.datasetId;
 
-
+  const [ , { error: restartCreationError, data: restartCreationData, isLoading: restartCreationUpdating }] = usePostSingleDataRestartCreationMutation({
+    fixedCacheKey: "postSingleDataRestartCreation"
+  });
+  const [ , { error: readjustPermissionsError, data: readjustPermissionsData, isLoading: readjustPermissionsUpdating }] = usePostSingleDataReadjustFilePermissionsMutation({
+    fixedCacheKey: "postSingleDataReadjustFilePermissions"
+  });
+  const [ , { error: recollectMetadataError, data: recollectMetadataData, isLoading: recollectMetadataUpdating }] = usePostSingleDataRecollectMetadataMutation({
+    fixedCacheKey: "postSingleDataRecollectMetadata"
+  });
   const [ , { error: integrityError, data: integrityData, isLoading: integrityUpdating }] = usePostSingleDataCheckIntegrityMutation({
     fixedCacheKey: "postSingleDataCheckIntegrity"
   });
@@ -159,34 +179,12 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
           </Row>
           <Container fluid className="w-100 h-75">
             <DelCancelSingleDataMsg deleteError={deleteError} />
+            <ActionMessage action="restarting creation" error={restartCreationError} data={restartCreationData} updating={restartCreationUpdating} />
+            <ActionMessage action="readjusting file permissions" error={readjustPermissionsError} data={readjustPermissionsData} updating={readjustPermissionsUpdating} />
+            <ActionMessage action="recollecting metadata" error={recollectMetadataError} data={recollectMetadataData} updating={recollectMetadataUpdating} />
             <IntegrityMessage integrityError={integrityError} integrityData={integrityData} integrityUpdating={integrityUpdating} />
-            <Tab.Container defaultActiveKey="details" activeKey={props.activeTab} 
-                  onSelect={(k) => {console.log(k);navigate(`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}/${k}`)}}>
-              <Row>
-                <Col sm={2}>
-                  <Nav variant="pills" className="flex-column mb-5">
-                    {
-                      props.tabs.map(s => 
-                        <Nav.Item key={`singledata-categories-${s.eventKey}`}>
-                          <Nav.Link eventKey={s.eventKey}>{s.title}</Nav.Link>
-                        </Nav.Item>
-                      )
-                    }
-                  </Nav>
-                </Col>
-                <Col sm={10}>
-                  <Tab.Content>
-                    {
-                      props.tabs.filter(s => s.eventKey === props.activeTab).map(s => 
-                        <Tab.Pane key={`singledata-categories-tab-${s.eventKey}`} eventKey={s.eventKey}>
-                            {s.view}
-                        </Tab.Pane>
-                      )
-                    }
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Tab.Container>
+            <TabsView basePath={`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}`} 
+                      tabs={props.tabs} defaultTab="details" activeTab={props.activeTab} />
           </Container>
         </Fragment>
           );

@@ -63,106 +63,103 @@ function ConfigEditorCommon({setConfig, config}: ProjectConfigEditorProps): JSX.
         return <ErrorView message={`Error loading licenses: ${Util.getError(error).message}`}/>
     } else if (data) {
         return <>
-        <Form.Group className="mb-3" title="Set th contact information for the project like an email for the contact person(s).">
-                <Form.Label>Contact Information</Form.Label>
-                <Form.Control placeholder="Enter the contact information" 
-                    value={localConfig.defaultContactInfo ?? ""}
-                    name="defaultContactInfo" 
-                    onInput={(e: FormEvent<HTMLInputElement>) => updConf("defaultContactInfo", e.currentTarget.value)}/>
-            </Form.Group>
+            <div>
+                <b>Creating datasets</b>
+                <div className="ms-3 mt-2 mb-3 pt-2 pb-1">
+                    <Form.Group className="mb-3" title="Set th contact information for the project like an email for the contact person(s).">
+                        <Form.Label>Default contact info</Form.Label>
+                        <Form.Control placeholder="Enter the contact information" 
+                            value={localConfig.defaultContactInfo ?? ""}
+                            name="defaultContactInfo" 
+                            onInput={(e: FormEvent<HTMLInputElement>) => updConf("defaultContactInfo", e.currentTarget.value)}/>
+                    </Form.Group>
 
-            <Form.Group className="mb-3" title="Set the license. Select '<Custom>' and the leave the fields empty if you don't want to set a license right now.">
-                <Form.Label>License</Form.Label>
-                
-                <Form.Select aria-label="License selector" 
-                        value={JSON.stringify(license)}
-                        onChange={onLicChange}
-                        >
-                    {
-                        data.map((l: License) => <option key={l.url ?? crypto.randomUUID()} 
-                                    value={JSON.stringify({title: l.title, url: l.url})}>
-                                {l.title}
-                            </option>)
-                    } 
-                    <option key="custom-license" value={JSON.stringify(isCustomLicense ? license : customEmptyLic)}>
-                        {"<Custom>"}
-                    </option>
-                </Form.Select>
-                {
-                    license === customEmptyLic || isCustomLicense
-                        ? <div className="w-100 ms-4 bg-light mt-4 pt-2 pb-2">
-                            <Form.Group className="ms-2 mb-3 ">
-                                <Form.Label>Custom License Title</Form.Label>
-                                <Form.Control placeholder="Enter the license title" 
-                                    name="defaultLicenseTitle"
-                                    defaultValue={license.title}
-                                    onInput={(e: FormEvent<HTMLInputElement>) => {
-                                        updConf("defaultLicense",
-                                            {
-                                                url: localConfig.defaultLicense?.url ?? "", 
-                                                title: e.currentTarget.value}
-                                        );
-                                    }}
-                                    />
-                             </Form.Group>
-                            <Form.Group className="ms-2 mb-3">
-                                <Form.Label>Custom License URL</Form.Label>
-                                <Form.Control placeholder="Enter the license URL" 
-                                    name="defaultLicenseUrl" 
-                                    defaultValue={license.url}
-                                    onInput={(e: FormEvent<HTMLInputElement>) => {
-                                        updConf("defaultLicense",{
-                                                title: localConfig.defaultLicense?.title ?? "", 
-                                                url: e.currentTarget.value}
-                                        );
-                                    }}
-                                    />
-                             </Form.Group>
-                        </div>
-                        : <></>
-                }
-                
-            </Form.Group>
+                    <Form.Group className="mb-3" title="Set the license. Select '<Custom>' and the leave the fields empty if you don't want to set a license right now.">
+                        <Form.Label>Default license</Form.Label>
+                        <Form.Select aria-label="License selector" 
+                                value={JSON.stringify(license)}
+                                onChange={onLicChange}>
+                            {
+                                data.map((l: License) => <option key={l.url ?? crypto.randomUUID()} 
+                                            value={JSON.stringify({title: l.title, url: l.url})}>
+                                        {l.title}
+                                    </option>)
+                            } 
+                            <option key="custom-license" value={JSON.stringify(isCustomLicense ? license : customEmptyLic)}>
+                                {"<Custom>"}
+                            </option>
+                        </Form.Select>
+                        {
+                            license === customEmptyLic || isCustomLicense
+                                ? <div className="w-100 ms-4 bg-light mt-4 pt-2 pb-2">
+                                    <Form.Group className="ms-2 mb-3 ">
+                                        <Form.Label>Custom license title</Form.Label>
+                                        <Form.Control placeholder="Enter the license title" 
+                                            name="defaultLicenseTitle"
+                                            defaultValue={license.title}
+                                            onInput={(e: FormEvent<HTMLInputElement>) => {
+                                                updConf("defaultLicense", { url: localConfig.defaultLicense?.url ?? "", 
+                                                                            title: e.currentTarget.value }
+                                                );
+                                            }} />
+                                    </Form.Group>
+                                    <Form.Group className="ms-2 mb-3">
+                                        <Form.Label>Custom license URL</Form.Label>
+                                        <Form.Control placeholder="Enter the license URL" 
+                                            name="defaultLicenseUrl" 
+                                            defaultValue={license.url}
+                                            onInput={(e: FormEvent<HTMLInputElement>) => {
+                                                updConf("defaultLicense", { title: localConfig.defaultLicense?.title ?? "", 
+                                                                            url: e.currentTarget.value }
+                                                );
+                                            }} />
+                                    </Form.Group>
+                                </div>
+                                : <></>
+                        }
+                    </Form.Group>
+                </div>
+            </div>
+            <div>
+                <b>Publishing datasets</b>
+                <div className="ms-3 mt-2 mb-3 pt-2 pb-1">
+                    <Form.Group className="mb-3" title="Set the access token for Zenodo if there is one.">
+                        <Form.Label>Zenodo API token</Form.Label>
+                        <Form.Control as="textarea" rows={3} placeholder="Enter the Zenodo Access Token" 
+                            name="zenodoAccessToken"
+                            value={localConfig.zenodoAccessToken ?? ""}
+                            onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoAccessToken", e.currentTarget.value)}
+                            />
+                    </Form.Group>
 
+                    <Form.Group className="mb-3" title="Set the author for Zenodo if there is one.">
+                        <Form.Label>Zenodo author</Form.Label>
+                        <Form.Control placeholder="Enter the Zenodo author" 
+                            name="zenodoAuthor"
+                            value={localConfig.zenodoAuthor ?? ""}
+                            onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoAuthor", e.currentTarget.value)}
+                            />
+                    </Form.Group>
 
-            <Form.Group className="mb-3" title="Set the access token for Zenodo if there is one.">
-                <Form.Label>Zenodo Access Token</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Enter the Zenodo Access Token" 
-                    name="zenodoAccessToken"
-                    value={localConfig.zenodoAccessToken ?? ""}
-                    onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoAccessToken", e.currentTarget.value)}
-                    />
-            </Form.Group>
+                    <Form.Group className="mb-3" title="Set the Zenodo community if there is one.">
+                        <Form.Label>Zenodo community</Form.Label>
+                        <Form.Control placeholder="Enter the Zenodo community" 
+                            name="zenodoCommunity"
+                            value={localConfig.zenodoCommunity ?? ""}
+                            onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoCommunity", e.currentTarget.value)}
+                            />
+                    </Form.Group>
 
-
-
-            <Form.Group className="mb-3" title="Set the author for Zenodo if there is one.">
-                <Form.Label>Zenodo Author</Form.Label>
-                <Form.Control placeholder="Enter the Zenodo author" 
-                    name="zenodoAuthor"
-                    value={localConfig.zenodoAuthor ?? ""}
-                    onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoAuthor", e.currentTarget.value)}
-                    />
-            </Form.Group>
-
-            <Form.Group className="mb-3" title="Set the Zenodo community if there is one.">
-                <Form.Label>Zenodo Community</Form.Label>
-                <Form.Control placeholder="Enter the Zenodo community" 
-                    name="zenodoCommunity"
-                    value={localConfig.zenodoCommunity ?? ""}
-                    onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoCommunity", e.currentTarget.value)}
-                    />
-            </Form.Group>
-
-
-            <Form.Group className="mb-3" title="Set the Zenodo grant ID if there is one.">
-                <Form.Label>Zenodo grant</Form.Label>
-                <Form.Control placeholder="Enter the Zenodo grant" 
-                    name="zenodoGrant"
-                    value={localConfig.zenodoGrant ?? ""}
-                    onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoGrant", e.currentTarget.value)}
-                    />
-            </Form.Group>
+                    <Form.Group className="mb-3" title="Set the Zenodo grant ID if there is one.">
+                        <Form.Label>Zenodo grant</Form.Label>
+                        <Form.Control placeholder="Enter the Zenodo grant" 
+                            name="zenodoGrant"
+                            value={localConfig.zenodoGrant ?? ""}
+                            onInput={(e: FormEvent<HTMLInputElement>) => updConf("zenodoGrant", e.currentTarget.value)}
+                            />
+                    </Form.Group>
+                </div>
+            </div>
         </>
     } else {
         return <Alert variant="info">Project config not available</Alert>

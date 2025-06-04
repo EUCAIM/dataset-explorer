@@ -190,7 +190,12 @@ function MainView(props: MainViewProps) {
           <div style={{display: "flex", flexDirection: "row"}}>
             <div>
               <FilteringView filterUpdate={filterUpdate} searchParams={searchParams}  loading={isLoading} 
-                  keycloakReady={props.keycloakReady} dataManager={props.dataManager} postMessage={props.postMessage}/>
+                  keycloakReady={props.keycloakReady} dataManager={props.dataManager} postMessage={props.postMessage}
+                  flags={[
+                    {name: "Draft", flag: "draft", backgroundVariant: "light", textColor: "dark", valueForRemove: null},
+                    {name: "Published", flag: "public", backgroundVariant: "dark", textColor: "light", valueForRemove: null},
+                    {name: "Invalidated", flag: "invalidated", backgroundVariant: "secondary", textColor: "light", valueForRemove: ""}
+                  ]}/>
             </div>
             <div style={{flexGrow: "1"}}>
               <MainTable singleDataType={props.singleDataType} data={data && data?.list ? data.list.slice(0, limit) : []}

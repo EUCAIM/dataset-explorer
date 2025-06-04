@@ -166,7 +166,7 @@ function DatasetView(props: DatasetViewProps) {
         if (dataset?.["allowedActionsForTheUser"].includes("viewAccessHistory")) {
             result.push({
                 eventKey: "access",
-                title: "Access",
+                title: "Access History",
                 view: <AccessHistoryView singleDataId={datasetId} keycloakReady={props.keycloakReady} postMessage={props.postMessage} 
                     dataManager={props.dataManager}/>
             })
@@ -174,7 +174,7 @@ function DatasetView(props: DatasetViewProps) {
         if (dataset?.["allowedActionsForTheUser"].includes("manageACL")) {
             result.push({
                 eventKey: "acl",
-                title: "ACL",
+                title: "Access Control",
                 view: <AccessControlListView singleDataId={datasetId} keycloakReady={props.keycloakReady} singleDataType={SingleDataType.DATASET}
                     />
 

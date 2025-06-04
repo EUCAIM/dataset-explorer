@@ -25,6 +25,9 @@ interface DatasetService {
 interface ExternalLinks {
     supportReportRequest: string;
     applicationCatalogue?: string;
+    datasetUsageGuide: string;
+    workstationUsageGuide: string;
+    appIntegration: string;
 }
 
 interface Project {
@@ -47,6 +50,7 @@ export default interface ConfigJson {
     defaultLimitStudies: number;
     defaultLimitTraces: number;
     defaultLimitAccess: number;
+    defaultLimitUsers: number;
     userAccountUrl: string;
     refreshDatasetCreate: number;
     keycloak: KeycloakOpts;

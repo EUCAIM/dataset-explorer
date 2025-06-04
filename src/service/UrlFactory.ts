@@ -1,6 +1,7 @@
 import SingleDataType from "../model/SingleDataType";
 import Util from "../Util";
 import config from "../service/config";
+import UserView from "../components/users/user/UserView";
 
 /**
  * TO BE USED WITH THE REACT ROUTER (navigate, Link etc.)
@@ -41,4 +42,13 @@ export default class UrlFactory {
         // }
     }
 
+    public static userBase(username: string): string {
+        return `/users/${username}`;
+    }
+    public static userDetails(username: string): string {
+        return `${this.userBase(username)}/${UserView.TAB_DETAILS}`;
+    }
+    public static userLogs(username: string): string {
+        return `${this.userBase(username)}/${UserView.TAB_LOGS}`;
+    }
 }

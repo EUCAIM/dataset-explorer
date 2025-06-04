@@ -43,16 +43,18 @@ function MainViewGrid({keycloakReady}: MainViewGridProps): JSX.Element {
             {
                 dt.map((e: ProjectListItem) => 
                     <Card key={e.code} border="secondary" style={{ width: '18rem', minWidth: '18rem'}}>
-                        <div style={{ height: '14rem', minHeight: '14rem'}} className="w-100 h-100 d-flex flex-wrap flex-row justify-content-center align-content-center">
+                        <div style={{ height: '14rem', minHeight: '14rem'}} 
+                             className="w-100 h-100 d-flex flex-wrap flex-row justify-content-center align-content-center p-2">
                         {
-                            e.logoUrl ? <Card.Img variant="top"
-                                    src={e.logoUrl} />
-                                : <NoLogoAvailable />
+                            e.logoUrl ? <Card.Img variant="top" src={e.logoUrl} />
+                                      : <NoLogoAvailable />
                         }
                         </div>
                         <Card.Body className="bg-light" >
-                            <Card.Title>{e.name}</Card.Title>
-                            <Button variant="primary" onClick={() => navigate(UrlFactory.projectDetails(e.code))}>Details</Button>
+                            <Card.Title>{e.code}</Card.Title>
+                            <Card.Subtitle className="fst-italic">{e.name}</Card.Subtitle>
+                            <Button variant="primary" className="mt-3"
+                                    onClick={() => navigate(UrlFactory.projectDetails(e.code))}>Details</Button>
                         </Card.Body>
                     </Card>
                 )

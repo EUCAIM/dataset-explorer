@@ -4,6 +4,7 @@ export default interface AccessHistory {
     creationTime: Date;
     userName: string;
     accessType: string;
+    instanceName: string;
     toolName: string;
     toolVersion: string;
     image: string;
