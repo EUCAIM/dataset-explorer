@@ -62,7 +62,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
     }  else if (confQ.isError) {
         return <ErrorView message={Util.getError(confQ.error).message} />
     } else if (projQ.data) {
-        return <div className="d-flex flex-column flex-wrap p-2 gap-3 p-2">
+        return <div className="d-flex flex-column flex-wrap p-2 gap-3 p-2 limited-width-div">
                 <h3>
                     {projQ.data.name}
                     {
@@ -80,7 +80,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                     }
                 </h3>
                 <div className="d-flex flex-row flex-wrap p-2 gap-3 p-2">
-                    <div className="d-flex flex-column flex-wrap p-2 gap-3 p-2">
+                    <div className="d-flex flex-column flex-wrap p-2 gap-3 p-2" style={{"maxWidth": "19rem"}}>
                         <div className="justify-content-center align-content-center" 
                                 style={{"height": "18rem", "width": "18rem", "maxHeight": "18rem", "maxWidth": "18rem"}}>
                             {
@@ -109,7 +109,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                                 : <></>
                         }
                     </div>
-                    <div className="d-flex flex-column flex-wrap">
+                    <div className="d-flex flex-column flex-wrap" style={{"maxWidth": "38rem"} /* 60(limited-width-div) - 19(logo div) - 3(padding and gap) */}>
                         <span><b>Project code: </b>{projQ.data.code}</span>
                         {
                             projQ.data.externalUrl 
@@ -138,7 +138,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                             projQ.data.allowedActionsForTheUser.includes("config") 
                                 ? <>
                                     <span><b>Creating datasets</b></span>
-                                    <div className="ms-4">
+                                    <div className="d-flex flex-column flex-wrap ms-4">
                                         <span><b>Default contact info: </b>{confQ.data?.defaultContactInfo ?? ""}</span>
                                         <span><b>Default license: </b>{
                                                             license ? (
@@ -150,7 +150,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                                         </span>
                                     </div>
                                     <span><b>Publishing datasets</b></span>
-                                    <div className="ms-4">
+                                    <div className="d-flex flex-column flex-wrap ms-4">
                                         <span><b>Zenodo author: </b>{confQ.data?.zenodoAuthor}</span>
                                         <span><b>Zenodo community: </b>{confQ.data?.zenodoCommunity}</span>
                                         <span><b>Zenodo grant: </b>{confQ.data?.zenodoGrant}</span>

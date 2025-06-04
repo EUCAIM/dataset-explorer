@@ -36,14 +36,9 @@ function UserList({ singleDataId, singleDataType, keycloakReady }: UserListProps
         if (data === undefined || data === null || data.length === 0) {
             return <p><b>No users found in the access control list (ACL).</b></p>;
         } else {
-            return <>    
-                <h5>List of users in the access control list (ACL):</h5>        
-                <ListGroup className="width-auto  d-inline-flex">
-                    {
-                        data?.map(u => <UserEntry key={u.uid} singleDataId={singleDataId} singleDataType={singleDataType} user={u}></UserEntry>)
-                    }
+            return <ListGroup className="width-auto  d-inline-flex">
+                    { data?.map(u => <UserEntry key={u.uid} singleDataId={singleDataId} singleDataType={singleDataType} user={u}></UserEntry>) }
                 </ListGroup>
-            </>
         }
     }
 }

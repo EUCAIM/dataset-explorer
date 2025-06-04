@@ -43,6 +43,13 @@ code {
   height: 100%;
 }
 
+.limited-width-form {
+  max-width: 40rem;
+}
+
+.limited-width-div {
+  max-width: 60rem;
+}
 
 .search-btn {
   padding-left: 2em;
@@ -79,4 +86,12 @@ code {
   0% { background-color: transparent; }
   50% { background-color: lightcoral; }
   100% { background-color: transparent; }
+}
+
+.breadcrumb {
+  --bs-breadcrumb-margin-bottom: 0;
+}
+
+:root {
+  --bs-light-rgb: 243,244,245;   /* original: 248,249,250; too light */
 }
