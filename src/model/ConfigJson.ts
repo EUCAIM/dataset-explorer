@@ -43,6 +43,7 @@ export default interface ConfigJson {
 
     appVersion: string;
     release: string;
+    publicURL?: string | null;
     datasetService: DatasetService;
     tracerService: string | null | undefined;
     basename: string;

@@ -1,6 +1,7 @@
 {
     "appVersion": "<replace_me>",
     "release": "prod-eucaim",
+    "publicURL": "/dataset-service/web",
     "datasetService": {
       "api": "https://eucaim-node.i3m.upv.es/dataset-service/api",
       "projectLogo": "https://eucaim-node.i3m.upv.es/dataset-service"
