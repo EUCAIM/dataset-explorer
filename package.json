@@ -33,8 +33,9 @@
     }
   },
   "scripts": {
-    "start": "node configure.js dev && react-scripts start",
-    "build-dev": "node configure.js dev  && PUBLIC_URL=/ react-scripts build",
+    "start": "node configure.js dev && react-scripts start",   
+    "build-dev": "node configure.js dev  && react-scripts build",
+    "build-mini-node": "node configure.js prod && PUBLIC_URL=/dataset-service/web react-scripts build",
     "build-prod": "node configure.js prod && PUBLIC_URL=/dataset-service/web react-scripts build",
     "build-prod-eucaim": "node configure.js prod-eucaim && PUBLIC_URL=/dataset-service/web react-scripts build",
     "build-prod-test": "node configure.js prod-test && DISABLE_ESLINT_PLUGIN=true  PUBLIC_URL=/dataset-service/web react-scripts build",

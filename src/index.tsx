@@ -16,7 +16,7 @@ function favicon(rel: string, iconPath: string): void {
       var link: HTMLLinkElement = document.querySelector(`link[rel*='${rel}']`) || document.createElement('link');
       link.type = 'image/x-icon';
       link.rel = 'icon';
-      link.href = process.env["PUBLIC_URL"] + iconPath;
+      link.href = config.publicURL + iconPath;
       document?.getElementsByTagName('head')[0]?.appendChild(link);
 }
 if (config.project?.favicon) {
