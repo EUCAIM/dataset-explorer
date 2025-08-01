@@ -13,6 +13,7 @@ function getReleaseConf() {
     case Util.RELEASE_DEV: return {t: "Development", bg: "bg-dark", tc: "text-white"};
     case Util.RELEASE_PROD_TEST: 
     case Util.RELEASE_PROD_TEST_EUCAIM: return {t: "Test", bg: "bg-warning", tc: "text-dark"};
+    case Util.RELEASE_MINI_NODE:
     case Util.RELEASE_PROD:
     case Util.RELEASE_PROD_EUCAIM: return {t: "Production", bg: "bg-transparent", tc: "text-dark"};
     default: console.error(`Unkwnon release type ${release}`);return {t: "", bg: "bg-transparent", tc: ""};
