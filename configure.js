@@ -23,7 +23,7 @@ const path = copyConfig(conf);
 //}
 
 function copyConfig(source) {
-  const path = process.cwd() + '/src/config.json';
+  const path = process.cwd() + '/public/config.json';
   fs.copyFileSync(source, path);
   return path;
 }

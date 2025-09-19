@@ -5,7 +5,7 @@ function Footer() {
 
     return (
         <div className="d-flex justify-content-between w-100 p-1 text-black bg-light bg-gradient mt-4 " style={{"fontSize":"0.75em"}}>
-            <span className="ms-2 me-2"><img src={process.env["PUBLIC_URL"] + "/icons/eu.svg"} 
+            <span className="ms-2 me-2"><img src={config.publicURL + "/icons/eu.svg"} 
                 style={{height:"0.75em"}}/><b className="ms-2">{config.project.name} Project</b>
                 {
                     config?.project.doi ?

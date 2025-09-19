@@ -10,6 +10,7 @@ export default class Util {
   static RELEASE_PROD_EUCAIM = "prod-eucaim";
   static RELEASE_PROD_TEST_EUCAIM = "prod-test-eucaim";
   static RELEASE_PROD_TEST= "prod-test";
+  static RELEASE_MINI_NODE = "mini-node";
   static RELEASE_UNDEFINED = undefined;
 
   static  isError(e: any): boolean {
@@ -108,6 +109,7 @@ export default class Util {
       case Util.RELEASE_PROD_TEST: return Util.RELEASE_PROD_TEST;
       case Util.RELEASE_PROD_TEST_EUCAIM: return Util.RELEASE_PROD_TEST_EUCAIM;
       case Util.RELEASE_PROD_EUCAIM: return Util.RELEASE_PROD_EUCAIM;
+      case Util.RELEASE_MINI_NODE: return Util.RELEASE_MINI_NODE;
       default: return Util.RELEASE_UNDEFINED;
     }
   }

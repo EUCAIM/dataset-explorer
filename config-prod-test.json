@@ -1,6 +1,7 @@
 {
   "appVersion": "<replace_me>",
   "release": "prod-test",
+  "publicURL": "/dataset-service/web",
   "datasetService": {
     "api": "https://chaimeleon-test.grycap.i3m.upv.es/dataset-service/api",
     "projectLogo": "https://chaimeleon-test.grycap.i3m.upv.es/dataset-service"
