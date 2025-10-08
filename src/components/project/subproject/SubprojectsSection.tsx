@@ -36,7 +36,7 @@ export default function SubprojectsSection({projectCode, allowedActionsForTheUse
         return <LoadingView fullMessage="Loading subprojects, please wait..."/>
     } else if (data) {
         if (keycloak.authenticated && allowedActionsForTheUser?.includes(ProjectAllowedActions.VIEW_SUBPROJECTS)) {
-            return <Col className="p-2">
+            return <Col className="p-2" xxl="6">
                         <b>Subprojects: </b>
                         {
                             data?.allowedActionsForTheUser.includes(SubprojectAllowedActions.CREATE)

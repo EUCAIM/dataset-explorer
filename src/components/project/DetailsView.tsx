@@ -90,7 +90,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                     </Col>
                 </Row>
                 <Row>
-                <Col className="d-flex flex-column flex-wrap gap-3 limited-width-div">                    
+                <Col  xxl="6" className="d-flex flex-column flex-wrap gap-3 limited-width-div">                    
                     <div className="d-flex flex-row flex-wrap p-2 gap-3">
                         <div className="d-flex flex-column flex-wrap p-2 gap-3 p-2" style={{"maxWidth": "19rem"}}>
                             <div className="justify-content-center align-content-center" 
