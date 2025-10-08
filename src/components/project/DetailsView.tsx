@@ -193,7 +193,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
                                         spec={BodyFactorySpecType.PROJECT}/>
                                 : <></>
                         }
-                        <div className="w-100 ms-4">{projQ.data.shortDescription ?? ""}</div>
+                        <div className="w-100 ms-4" dangerouslySetInnerHTML={{__html: projQ.data.shortDescription ?? ""}}></div>
                     </div>
                 </Col>
                 <SubprojectsSection allowedActionsForTheUser={projQ.data?.allowedActionsForTheUser}
