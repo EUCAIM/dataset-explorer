@@ -22,12 +22,17 @@ export default class Util {
    };
 
   static getError(error: any): Error  {
+    console.log(error);
     if (Util.isError(error)) {
       return error;
     } else if (error.message) {
-      return new Error(error.message, { cause: error });
+        return new Error(error.message, { cause: error });      
     } else if (error.data) {
-      return new Error(String(error.data), { cause: error });
+        if (typeof error.data === "object") {
+            return new Error(JSON.stringify(error.data), { cause: error });
+        } else {
+            return new Error(String(error.data), { cause: error });
+        }
     } else if ("error" in error) {
         if ("error" in error.error) {
             return new Error(String(error.error.error), { cause: error });
