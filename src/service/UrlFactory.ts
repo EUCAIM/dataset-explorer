@@ -16,6 +16,12 @@ export default class UrlFactory {
         return `/${Util.singleDataPath(singleDataType)}/${id}/details`
     }
 
+    public static sitesList(): string { return "/sites"}
+
+    public static getPutSite(siteCode: string): string { return `/sites/${siteCode}`;}
+
+    public static siteCreator(): string { return "/sites/creator" }
+
     public static projectDetails(code: string): string {
         return `/projects/${code}/details`
     }
