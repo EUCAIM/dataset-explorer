@@ -26,6 +26,9 @@ import NewProjectView from "./components/project/NewProjectView";
 import ConfigEditorView from "./components/project/ConfigEditorView";
 import UsersMainView from "./components/users/UsersMainView";
 import UserView from "./components/users/user/UserView";
+import SubprojectEditor from "./components/project/subproject/SubprojectEditor";
+import SitesMainView from "./components/site/SitesMainView";
+import SiteCreatorView from "./components/site/SiteCreatorView";
 
 interface Dsv {
   tab: string;
@@ -134,6 +137,11 @@ function App({keycloakReady}: AppProps) {
             <Route path="/projects" element={<ProjectsMainView keycloakReady={keycloakReady} />} />
             <Route path="/projects/:code/details" element={<ProjectDetailsView showDialog={showDialog} keycloakReady={keycloakReady} />} />
             <Route path="/projects/:code/config-editor" element={<ConfigEditorView />} />
+            <Route path="/projects/:code/subprojects/:subcode/editor" element={<SubprojectEditor />} />
+            <Route path="/projects/:code/subprojects/new" element={<SubprojectEditor />} />
+
+            <Route path="/sites" element={<SitesMainView keycloakReady={keycloakReady}  />} />
+            <Route path="/sites/creator" element={<SiteCreatorView keycloakReady={keycloakReady}  />} />
 
             <Route path="/users" element={<UsersMainView keycloakReady={keycloakReady} 
                    dataManager={dataManager} postMessage={postMessage} />} />

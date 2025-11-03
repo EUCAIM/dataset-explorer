@@ -1,14 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { api } from './service/singledata-api';
+import { apiSites } from './service/site-api';
 import { useDispatch } from 'react-redux';
+// import authReducer from './authSlice';
+import { setupListeners } from '@reduxjs/toolkit/query';
+
+const rootReducer = combineReducers({
+    [api.reducerPath]: api.reducer,
+    [apiSites.reducerPath]: apiSites.reducer,
+    //auth: authReducer
+  });
+
+//   type RootState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({
-  reducer: {
-    [api.reducerPath]: api.reducer,
-  },
-  middleware: (gDM) => gDM().concat(api.middleware),
+  reducer: rootReducer,
+  middleware: (gDM) => gDM().concat(api.middleware, apiSites.middleware),
 })
 
-export type RootState = ReturnType<typeof store.getState>
+setupListeners(store.dispatch);
+
 export type AppDispatch = typeof store.dispatch
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>() 

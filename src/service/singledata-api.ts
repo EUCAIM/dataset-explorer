@@ -22,6 +22,8 @@ import User from '../model/user/User';
 import UserUpdate from '../model/user/UserUpdate';
 import ManagementJob from '../model/ManagementJob';
 import UserListItem from '../model/user/UserListItem';
+import SubprojectList from '../model/project/SubprojectList';
+import Subproject from '../model/project/Subproject';
 
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: '' }),
@@ -389,6 +391,44 @@ export const api = createApi({
         invalidatesTags: ["Project", "ProjectList"],
     }),
 
+    getSubprojects: build.query<SubprojectList, GetSubprojectsT>({
+        queryFn: async ({token, code}: GetSubprojectsT)  => 
+          {
+            try {
+                let headers = new Map();
+                if (token) {
+                    headers.set("Authorization", "Bearer " + token);
+                }
+                return { data: await call("GET", 
+                  `${BASE_URL_API}/projects/${code}/subprojects`, headers,
+                  null, "text", null) };
+            } catch(error) { return { error: generateError(error) }; }
+  
+          },
+          providesTags: ["SubprojectList"],
+      }),
+
+    putSubproject: build.mutation<boolean, PutSubprojectT>({
+        queryFn: async ({partialSubproject, code, subcode, token}: PutSubprojectT)  => 
+          {
+            try {
+                const headers = new Map([["Content-Type",  "application/json"]]);
+                if (token) {
+                    headers.set("Authorization", "Bearer " + token);
+                } else {
+                    return { error: generateError("Invalid token.") } 
+                }
+                await call("PUT", 
+                  `${BASE_URL_API}/projects/${code}/subprojects/${subcode}`, headers,
+                  JSON.stringify(partialSubproject), "text", null);
+                  return {data: true};
+            } catch(error) { return { error: generateError(error) }; }
+  
+          },
+          invalidatesTags: ["SubprojectList"],
+      }),
+
+
     getUsersPage: build.query<ItemPage<UserListItem>, GetUsersPageT>({
       queryFn: async ({token, qParams}: GetUsersPageT)  => {
           try {
@@ -590,6 +630,20 @@ interface PatchProjectT {
     value: string | boolean | null;
 }
 
+interface GetSubprojectsT {
+    token: string | null | undefined;
+    code: string;
+
+}
+
+interface PutSubprojectT {
+    partialSubproject: Partial<Subproject>;
+    code: string;
+    subcode: string;
+    token: string;
+}
+
+
 interface GetUsersPageT {
   token: string  | null | undefined;
   qParams:  QueryParamsType;
@@ -643,6 +697,8 @@ export const {
   usePutProjectMutation,
   usePutProjectConfigMutation,
   useGetProjectsQuery,
+  useGetSubprojectsQuery,
+  usePutSubprojectMutation,
   useGetProjectQuery,
     useGetProjectConfigQuery,
     usePatchProjectMutation,

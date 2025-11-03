@@ -42,7 +42,8 @@ function NavbarView() {
             </Navbar.Brand>
             <Nav.Link title="List of datasets" href={config.basename + "/datasets"}>Datasets</Nav.Link>
             <Nav.Link title="List of models" href={config.basename + "/models"}>Models</Nav.Link>
-            <Nav.Link title="List of projects" href={config.basename + "/projects"}>Projects</Nav.Link>
+            <Nav.Link title="Manage the projects" href={config.basename + "/projects"}>Projects</Nav.Link>
+            {/* <Nav.Link title="Manage the sites" href={config.basename + "/sites"}>Sites</Nav.Link> */}
             <NavDropdown title="Documentation" id="documentation-dropdown">
               <NavDropdown.Item key="Workstation_Usage_Guide" title="Workstation Usage Guide" href={config.externalLinks.workstationUsageGuide} target="_blank">Workstation Usage</NavDropdown.Item>
               <NavDropdown.Item key="Dataset_Usage_Guide" title="Dataset Usage Guide" href={config.externalLinks.datasetUsageGuide} target="_blank">Dataset Usage</NavDropdown.Item>

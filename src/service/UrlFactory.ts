@@ -16,6 +16,12 @@ export default class UrlFactory {
         return `/${Util.singleDataPath(singleDataType)}/${id}/details`
     }
 
+    public static sitesList(): string { return "/sites"}
+
+    public static getPutSite(siteCode: string): string { return `/sites/${siteCode}`;}
+
+    public static siteCreator(): string { return "/sites/creator" }
+
     public static projectDetails(code: string): string {
         return `/projects/${code}/details`
     }
@@ -27,6 +33,12 @@ export default class UrlFactory {
     public static projectsList(): string {
         return `/projects`;
     }
+
+    public static subprojectEditor(code: string, subcode: string): string 
+        {return `/projects/${code}/subprojects/${subcode}/editor`;}
+
+    public static subprojectNew(code: string): string 
+        {return `/projects/${code}/subprojects/new`;}
 
     public static projectConfigEdit(code: string): string {
         return `/projects/${code}/config-editor`;

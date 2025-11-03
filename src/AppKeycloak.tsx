@@ -28,7 +28,7 @@ function AppKeycloak() {
   }, []);
 
   const tokenLogger = (tokens?: any) => {
-    console.log('onKeycloakTokens');//, tokens)
+    //console.log('onKeycloakTokens');//, tokens)
   }
 
     return (
@@ -40,7 +40,9 @@ function AppKeycloak() {
           //           adapter: "default",
           //       }}
           //      LoadingComponent={<Loading />}
-          ><App keycloakReady={keycloakReady}/></ReactKeycloakProvider>
+          >
+            <App keycloakReady={keycloakReady}/>
+        </ReactKeycloakProvider>
     );
 }
 
