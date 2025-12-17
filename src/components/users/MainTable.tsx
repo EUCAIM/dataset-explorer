@@ -9,6 +9,7 @@ import DataManager from "../../api/DataManager";
 import TableNoData from "../common/TableNoData";
 import UrlFactory from "../../service/UrlFactory";
 import UserListItem from "../../model/user/UserListItem";
+import MainTableSortBy from "../../model/MainTableSortBy";
 
 
 interface DefaultColumnFilterColumn {
@@ -103,9 +104,10 @@ interface TableProps {
   columns: Array<Column<any>>;
   data: Array<UserListItem>;
   updSearchParams: Function;
+  sortBy: MainTableSortBy[];
 }
 
-function Table({ columns, data, updSearchParams}: TableProps) {
+function Table({ columns, data, sortBy, updSearchParams}: TableProps) {
   const defaultColumn = useMemo(
     () => ({
       // Let's set up our default Filter UI
@@ -130,7 +132,9 @@ function Table({ columns, data, updSearchParams}: TableProps) {
       defaultColumn, // Be sure to pass the defaultColumn option
       //filterTypes,
       manualSortBy: true,
-      initialState: {}
+      initialState: {
+          sortBy
+      }
     },
     useFilters, // useFilters!
     useGlobalFilter, // useGlobalFilter!
@@ -219,9 +223,11 @@ interface UsersMainTableProps {
   dataManager: DataManager,
   postMessage: Function;
   updSearchParams: Function;
+  currentSort: MainTableSortBy;
 }
 
 function UsersMainTable(props: UsersMainTableProps): JSX.Element {
+  const sortBy: MainTableSortBy[] = useMemo(() => {return [props.currentSort]}, [props.currentSort]);
   const columns = useMemo(() => [
     {
       Header: () => <Fragment>Name (<i>ID</i>)</Fragment>,
@@ -261,7 +267,8 @@ function UsersMainTable(props: UsersMainTableProps): JSX.Element {
       Cell: ({ row }: CellProps<any>) => <ColCreatedRender  row={row}/> 
     }
   ], [props]);
-    return <Table columns={columns} data={props.data} updSearchParams={props.updSearchParams} />
+    return <Table columns={columns} 
+      sortBy={sortBy} data={props.data} updSearchParams={props.updSearchParams} />
 }
 
 export default UsersMainTable;

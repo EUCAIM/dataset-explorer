@@ -6,14 +6,13 @@ import React, { Fragment, useMemo } from 'react';
 import {matchSorter} from 'match-sorter';
 
 import DataManager from "../../../../api/DataManager";
-import Dataset from "../../../../model/Dataset";
 import MainTableSortBy from "../../../../model/MainTableSortBy"
 import TableNoData from "../../../common/TableNoData";
-import SingleData from "../../../../model/SingleData";
 import SingleDataType from "../../../../model/SingleDataType";
 import UrlFactory from "../../../../service/UrlFactory";
 import CopiableFieldEntryProps from "../../../common/CopiableFieldEntry";
 import SingleDataFactory from "../../../../api/SingleDataFactory";
+import SingleDataPageItem from "../../../../model/SingleDataPageItem";
 
 
 // const IndeterminateCheckbox = forwardRef(
@@ -248,7 +247,7 @@ fuzzyTextFilterFn.autoRemove = (val: string) => !val;
 // }
 
 interface MoreLinkProps {
-  row: Row<Dataset>;
+  row: Row<SingleDataPageItem>;
   singleDataType: SingleDataType;
 }
 
@@ -288,7 +287,7 @@ function MoreLink({row, singleDataType}: MoreLinkProps): JSX.Element {
 // }
 
 interface ColNameIdRenderProps {
-  row: Row<Dataset>
+  row: Row<SingleDataPageItem>
 }
 
 function ColNameIdRender({row}: ColNameIdRenderProps): JSX.Element {
@@ -308,7 +307,7 @@ function ColNameIdRender({row}: ColNameIdRenderProps): JSX.Element {
 }
 
 interface ColFlagsRenderProps {
-  row: Row<Dataset>
+  row: Row<SingleDataPageItem>
 }
 
 function ColFlagsRender({row}: ColFlagsRenderProps): JSX.Element {
@@ -321,8 +320,25 @@ function ColFlagsRender({row}: ColFlagsRenderProps): JSX.Element {
   );
 }
 
+interface ColTagsRenderProps {
+  row: Row<SingleDataPageItem>
+}
+
+function ColTagsRender({row}: ColTagsRenderProps): JSX.Element {
+  return (
+      <div className="mt-1 mb-1">
+        {
+            row.original["tags"] ? row.original["tags"]
+                    .map(t => <Badge pill key={t} bg="light" text="dark" className="ms-1 me-1">{t}</Badge>)
+                : <></>
+        }
+        
+      </div>
+  );
+}
+
 interface ColCreatedRenderProps {
-  row: Row<Dataset>
+  row: Row<SingleDataPageItem>
   // dateTimeParts: Array<string>
 }
 
@@ -513,7 +529,7 @@ function Table({ singleDataType, columns, data, sortBy, updSearchParams//, showD
 }
 
 interface DatasetsMainTableProps {
-  data: SingleData[],
+  data: SingleDataPageItem[],
   dataManager: DataManager,
   postMessage: Function;
   currentSort: MainTableSortBy;
@@ -546,6 +562,11 @@ function DatasetsMainTable(props: DatasetsMainTableProps): JSX.Element {
       Header: 'Flags',
       id: "flags",
       Cell: ({row}: CellProps<any>) => <ColFlagsRender   row={row}/> 
+    },
+    {
+      Header: 'Tags',
+      id: "tags",
+      Cell: ({row}: CellProps<any>) => <ColTagsRender   row={row}/> 
     },
     {
       Header: 'Author',
