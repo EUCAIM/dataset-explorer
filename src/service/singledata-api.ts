@@ -24,6 +24,7 @@ import ManagementJob from '../model/ManagementJob';
 import UserListItem from '../model/user/UserListItem';
 import SubprojectList from '../model/project/SubprojectList';
 import Subproject from '../model/project/Subproject';
+import SingleDataPageItem from '../model/SingleDataPageItem';
 
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: '' }),
@@ -31,7 +32,7 @@ export const api = createApi({
   refetchOnMountOrArgChange: false,
   tagTypes: ["Model", "Dataset", "ModelAcl", "DatasetAcl", "Project", "ProjectList", "ProjectConfig"],
   endpoints: (build:  EndpointBuilder<any, any, any>) => ({
-    getSingleDataPage: build.query<ItemPage<SingleData>, GetSingleDataPageT>({
+    getSingleDataPage: build.query<ItemPage<SingleDataPageItem>, GetSingleDataPageT>({
       queryFn: async ({token, qParams, singleDataType}: GetSingleDataPageT
         /*, queryApi, extraOptions, baseQuery*/)  => 
         {
@@ -47,7 +48,7 @@ export const api = createApi({
                     
                 });
                 }
-                return { data: dt as ItemPage<SingleData> };
+                return { data: dt as ItemPage<SingleDataPageItem> };
             } catch(error) { return { error: generateError(error) }; }
         },
         providesTags: ["Model", "Dataset"],
