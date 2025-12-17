@@ -34,15 +34,13 @@ interface DetailsViewProps {
 function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Element {
     const {keycloak} = useKeycloak();
     const params = useParams();
-    const code = params["code"];
+    const code = params["code"] ?? "";
 
-    if (code === undefined) {
-        return <ErrorView message="Unable to get the project's code from the URL." />;
-    }
+
 
     const projQ = useGetProjectQuery({
         token: keycloak.token,
-        code
+        code: code
         },
         {
             skip: !code || !keycloakReady
@@ -51,7 +49,7 @@ function DetailsView({keycloakReady,  showDialog}: DetailsViewProps): JSX.Elemen
 
     const confQ = useGetProjectConfigQuery({
         token: keycloak.token,
-        code
+        code: code
         },
         {
             skip: !keycloakReady || !keycloak.authenticated 

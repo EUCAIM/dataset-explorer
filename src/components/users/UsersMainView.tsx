@@ -12,6 +12,23 @@ import FilteringView from "../data/common/main/filter/FilteringView";
 import PaginationFooter from "../common/PaginationFooter";
 import MainTable from "./MainTable";
 
+function getSortDirectionDesc(searchParam?: string | null, sortBy?: string | null): string {
+  if (!sortBy) {
+    sortBy = "creationDate";
+  }
+
+  if (!searchParam) {
+    switch (sortBy) {
+      case "gid":
+      case "email":
+      case "name":
+      case "username": searchParam = "ascending"; break;
+      case "creationDate": searchParam =  "descending"; break;
+      default: console.warn(`Column ${sortBy} not handled when sort dir not set`); searchParam =  "descending"; 
+    }
+  } 
+  return searchParam;// === "ascending" ? false : true;
+}
 
 interface UsersMainViewProps {
     keycloakReady: boolean;
@@ -30,6 +47,9 @@ export default function UsersMainView(props: UsersMainViewProps) {
 
   const searchStringTmp: string | null = searchParams.get("searchString");
   const searchString: string = searchStringTmp ? decodeURIComponent(searchStringTmp) : "";
+  const sortBy: string = searchParams.get("sortBy") ?? "creationDate";
+  const sortDirection: string = getSortDirectionDesc(searchParams.get("sortDirection"), searchParams.get("sortBy") ?? "creationDate");
+
   const skip: number = searchParams.get("skip") ? Number(searchParams.get("skip")) : 0;
   const limit: number = searchParams.get("limit") ? Number(searchParams.get("limit")) : config.defaultLimitUsers;
 
@@ -55,7 +75,7 @@ export default function UsersMainView(props: UsersMainViewProps) {
   const {data, isError, error, isLoading} = useGetUsersPageQuery({
       token: keycloak.token, 
       qParams: {
-          skip, limit, searchString,
+          skip, limit, searchString, sortBy, sortDirection,
           ...(searchParams.get("project") !== null) && {project: searchParams.get("project")},
           ...(searchParams.get("draft") !== null) && {draft: searchParams.get("draft")},
           ...(searchParams.get("public") !== null) && {public: searchParams.get("public")},
@@ -92,6 +112,10 @@ export default function UsersMainView(props: UsersMainViewProps) {
             dataManager={props.dataManager}
             postMessage={props.postMessage}
             updSearchParams={updSearchParams}
+                currentSort={{
+                  id: sortBy, 
+                  desc: sortDirection === "descending" ? true : false
+                }}
           />
           <div className="d-flex flex-row justify-content-center w-100" >
               <PaginationFooter skip={skip} limit={limit} total={data?.total ?? 0} onSkipChange={onSkipChange} />
