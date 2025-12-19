@@ -8,6 +8,7 @@ import BodyPid from "../../data/common/single/common/fieldedit/BodyPid";
 import BodyId from "../../data/common/single/common/fieldedit/BodyId";
 import BodyEnumSelect from "../../data/common/single/common/fieldedit/BodyEnumSelect";
 import CollectionMethodType from "../../../model/CollectionMethodType";
+import { BodyRTE } from "../../data/common/single/common/fieldedit/BodyRTE";
 
 function bodyFactory(spec: BodyFactorySpecType, field:string, updValue: Function,
         oldValue: any, keycloakReady: boolean, additionalProps?: any): JSX.Element {
@@ -35,6 +36,8 @@ function bodyFactory(spec: BodyFactorySpecType, field:string, updValue: Function
         } else if (field === "collectionMethod") {
             return <BodyEnumSelect updValue={updValue as (newValue: string[]) => void} 
                                    oldValue={oldValue} allValues={Object.values(CollectionMethodType)}/>;
+        } else if (field === "description") {
+            return <BodyRTE updValue={updValue} oldValue={oldValue}/>;
         } else if (field === "description" || field === "provenance" || field === "purpose") {
             return <Body updValue={updValue} oldValue={oldValue} inputType="textarea"/>;
         } else {
