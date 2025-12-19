@@ -26,6 +26,7 @@ export function BodyRTE(props: BodyRTEProps): JSX.Element {
             ['link']
           ]
         }}
+        bounds={'[data-text-editor="editor"]'}
         formats={[
           'bold', 'italic', 'underline', 'strike', 
           'list', 'bullet', 'link', 'script'

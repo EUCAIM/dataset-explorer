@@ -1,15 +1,21 @@
 .editor-wrapper {
-  max-width: 100%;
-  padding: 0.5rem;
+    max-width: 100%;
+    min-height: 12rem;
+    padding: 0.5rem;
 }
 
 .editor-wrapper :global(.ql-container) {
-  max-height: 10rem;
-  overflow-y: auto;
-  overflow-x: hidden;
+    min-height: 10rem;
+    max-height: 10rem;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .editor-wrapper :global(.ql-editor) {
-  white-space: normal;
-  word-break: break-word;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.editor-wrapper :global(.ql-tooltip) {
+    left: unset !important;
 }
