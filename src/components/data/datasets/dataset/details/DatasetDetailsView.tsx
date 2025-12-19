@@ -84,7 +84,7 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                 : <Fragment />
               }
               <br></br>
-              <span className="ms-4" dangerouslySetInnerHTML={{ __html: dataset.purpose }}></span>
+              <div className="mt-1 mb-2 ms-4 text-wrap text-break" dangerouslySetInnerHTML={{ __html: dataset.purpose }}></div>
 
             </p>
             <p>
@@ -105,7 +105,7 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                 : <Fragment />
               }
               <br></br>
-              <span className="ms-4" dangerouslySetInnerHTML={{ __html: dataset.description }}></span>
+              <div className="mt-1 mb-2 ms-4 text-wrap text-break" dangerouslySetInnerHTML={{ __html: dataset.description }}></div>
               
             </p>
             <p>
@@ -124,7 +124,7 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                                 spec={BodyFactorySpecType.SINGLEDATA}/>
                         : <Fragment /> }
                 <br></br>
-                <span className="ms-4">{dataset.provenance}</span>
+                <div className="mt-1 mb-2 ms-4 text-wrap text-break">{dataset.provenance}</div>
             </p>
 
             <p>
@@ -143,7 +143,7 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                             spec={BodyFactorySpecType.SINGLEDATA}/>
                       : <Fragment /> }
             <br></br>
-              <span className="ms-4">{dataset.contactInfo}</span>
+              <span className="ms-4 text-wrap text-break">{dataset.contactInfo}</span>
             </p>
             <div className="pt-2 pb-2 ps-1 pe-1 bg-light bg-gradient">
               <p>
@@ -166,7 +166,7 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                         : <Fragment/>
               }            
               </p>
-              <p>
+              <p className=" text-wrap text-break">
                 {
                   dataset.license === null || dataset.license.title?.length === 0
                     || dataset.license.url?.length === 0 ?
@@ -175,10 +175,10 @@ function DatasetDetailsView(props: DatasetDetailsViewProps) {
                         <i>Add a license </i> : <i>The dataset license has yet to be set.</i>
                     )
                     : 
-                    <Fragment>
+                    <span>
                       <i>This dataset is offered under the following license: </i>
                       <b><a target="_blank" href={dataset.license.url}>{dataset.license.title}</a></b>
-                    </Fragment>
+                    </span>
                 }
                 
                 { keycloak.authenticated &&  dataset.editablePropertiesByTheUser.includes("license")  ?
