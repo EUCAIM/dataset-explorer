@@ -1,0 +1,15 @@
+.editor-wrapper {
+  max-width: 100%;
+  padding: 0.5rem;
+}
+
+.editor-wrapper :global(.ql-container) {
+  max-height: 10rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.editor-wrapper :global(.ql-editor) {
+  white-space: normal;
+  word-break: break-word;
+}
