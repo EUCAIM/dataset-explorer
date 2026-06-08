@@ -1,6 +1,6 @@
 import {Row, Col, Container, Alert } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import SingleData from "../../../../../model/SingleData";
 import SingleItemTab from "../../../../../model/SingleItemTab";
@@ -15,9 +15,10 @@ import { useDeleteSingleDataCreatingMutation, useGetSingleDataQuery,
          usePostSingleDataRecollectMetadataMutation, usePostSingleDataCheckIntegrityMutation } from "../../../../../service/singledata-api";
 import Util from "../../../../../Util";
 import CheckIntegrity from "../../../../../model/CheckIntegrity";
-import config from "../../../../../service/config";
 import DelCancelSingleDataMsg from "../../../../common/DelCancelSingleDataMsg";
 import TabsView from "../../../../common/TabsView";
+import SingleDataTags from "./SingleDataTags";
+import UrlFactory from "../../../../../service/UrlFactory";
 
 
 
@@ -148,7 +149,7 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
 
   useEffect(() => {
     if (deleteIsLoading === false && (deleteError === undefined || deleteError === null) && deleteData) {
-      navigate("/" + config.basename);
+      navigate(UrlFactory.base());
     } 
   }, [deleteIsLoading, deleteError, deleteData ])
 
@@ -163,9 +164,9 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
       return <LoadingView what={`details for resource ID '${singleDataId}'`} />;
     } else {
       return (
-        <Fragment>
+        <div className="mb-4">
           <Breadcrumbs elems={[{text: 'Dataset information', link: "", active: true}]}/>
-          <Row className="mb-4 mt-4">
+          <Row className="mb-2 mt-4">
             <Col md={11}>
               <SingleDataTitle showDialog={props.showDialog} 
                 keycloakReady={props.keycloakReady} singleDataId={singleDataId} singleDataType={props.singleDataType} />
@@ -177,6 +178,10 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
               </div>
             </Col>
           </Row>
+          <Row className="mb-4 mt-2">
+            <SingleDataTags showDialog={props.showDialog} 
+                keycloakReady={props.keycloakReady} singleDataId={singleDataId} singleDataType={props.singleDataType} />
+          </Row>
           <Container fluid className="w-100 h-75">
             <DelCancelSingleDataMsg deleteError={deleteError} />
             <ActionMessage action="restarting creation" error={restartCreationError} data={restartCreationData} updating={restartCreationUpdating} />
@@ -186,7 +191,7 @@ function SingleDataView<T extends SingleData>(props: SingleDataViewProps<T>): JS
             <TabsView basePath={`/${Util.singleDataPath(props.singleDataType)}/${singleDataId}`} 
                       tabs={props.tabs} defaultTab="details" activeTab={props.activeTab} />
           </Container>
-        </Fragment>
+        </div>
           );
     }
   } else {
