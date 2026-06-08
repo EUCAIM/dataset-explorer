@@ -3,7 +3,6 @@ import { useKeycloak } from "@react-keycloak/web";
 import React from "react";
 import { Button } from "react-bootstrap";
 import MainViewGrid from "./MainViewGrid";
-import GetProjectsPurpose from "../../model/project/GetProjectsPurpose";
 import { useGetProjectsQuery } from "../../service/singledata-api";
 import ErrorView from "../common/ErrorView";
 import Util from "../../Util";
@@ -20,7 +19,7 @@ function MainView({keycloakReady}: MainViewProps): JSX.Element {
     const {keycloak} = useKeycloak();
     const { data, error, isError } = useGetProjectsQuery({
         token: keycloak.token,
-        purpose: GetProjectsPurpose.PROJECT_LIST
+        purpose: "projectList"
         },
         {
             skip: !keycloak.authenticated
@@ -29,7 +28,6 @@ function MainView({keycloakReady}: MainViewProps): JSX.Element {
     const canCreateProj = data !== undefined && "allowedActionsForTheUser" in data ? 
             data.allowedActionsForTheUser.includes("create")
         :  false;
-    console.log(data);
     return <div className="d-flex flex-column p-2 w-100">
 
         {

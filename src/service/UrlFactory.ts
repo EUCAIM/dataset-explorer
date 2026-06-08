@@ -2,6 +2,7 @@ import SingleDataType from "../model/SingleDataType";
 import Util from "../Util";
 import config from "../service/config";
 import UserView from "../components/users/user/UserView";
+import UrlTags from "../model/UrlTags";
 
 /**
  * TO BE USED WITH THE REACT ROUTER (navigate, Link etc.)
@@ -9,18 +10,28 @@ import UserView from "../components/users/user/UserView";
  */
 export default class UrlFactory {
 
-    static baseName = config.basename.endsWith("/") ? config.basename : config.basename +  "/";
-    static base = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}${UrlFactory.baseName}`;
+    static baseName = config.basename.endsWith("/") ? config.basename.substring(0, config.basename.length - 1) : config.basename;
+    //static base = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}`;
 
+    public static base() {
+        return UrlFactory.baseName;
+    }
+    public static singleData(singleDataType: SingleDataType, queryParams?: UrlTags): string { 
+        return `/${Util.singleDataPath(singleDataType)}${UrlFactory.queryParams(queryParams)}`;
+    }
     public static singleDataDetails(id: string, singleDataType: SingleDataType): string {
-        return `/${Util.singleDataPath(singleDataType)}/${id}/details`
+        return `${UrlFactory.singleData(singleDataType)}/${id}/details`
     }
 
-    public static sitesList(): string { return "/sites"}
+    public static datasetNew() {
+        return "/datasets/new";
+    }
+
+    public static sites(): string { return `/sites`}
 
     public static getPutSite(siteCode: string): string { return `/sites/${siteCode}`;}
 
-    public static siteCreator(): string { return "/sites/creator" }
+    public static siteCreator(): string { return `/sites/creator`; }
 
     public static projectDetails(code: string): string {
         return `/projects/${code}/details`
@@ -30,7 +41,7 @@ export default class UrlFactory {
         return `/projects/new`;
     }
 
-    public static projectsList(): string {
+    public static projects(): string {
         return `/projects`;
     }
 
@@ -44,15 +55,7 @@ export default class UrlFactory {
         return `/projects/${code}/config-editor`;
     }
 
-    public static projectLogoFullUrl(logoUrl: string): string {
-        return `${config.datasetService.projectLogo}${logoUrl}`;
-        // const url: URL | null = URL.parse(Config.datasetService.api);
-        // if (url) {
-        //     return `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ""}${Config.basename}${logoUrl}`
-        // } else {
-        //     return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}${Config.basename}${logoUrl}`
-        // }
-    }
+    public static users(): string { return `/users`;}
 
     public static userBase(username: string): string {
         return `/users/${username}`;
@@ -63,4 +66,21 @@ export default class UrlFactory {
     public static userLogs(username: string): string {
         return `${this.userBase(username)}/${UserView.TAB_LOGS}`;
     }
+
+    public static fair(): string { return `/fair`; }
+
+    public static support(): string { return `/support`; }
+
+    public static queryParams(qps?: UrlTags): string {
+        if (qps) { 
+            let qpA = [];
+            for (const [k, v] of Object.entries(qps)) {
+                qpA.push(`${k}=${v}`);
+            }
+            return `?${qpA.join("&")}`;
+        } else {
+            return "";
+        }
+    }
 }
+
